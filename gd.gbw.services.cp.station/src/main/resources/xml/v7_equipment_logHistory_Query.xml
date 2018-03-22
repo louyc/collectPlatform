@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="GB2312" standalone="yes"?>
+<Msg Version="8" MsgID="2" Type="RadioUp" DateTime="2002-08-17 15:30:00" SrcCode="R61D01" DstCode="CBT01" ReplyID="1">
+	<Return Type="EquipmentLogHistoryQuery" Value="0" Desc="成功"/>
+	<EquipmentLogHistoryQueryR>
+		<LogItem DateTime="2002-08-27 1:30:00" Name="" Desc=""/>
+		<LogItem DateTime="2002-08-28 1:31:00" Name="" Desc=""/>
+	</EquipmentLogHistoryQueryR>
+</Msg>

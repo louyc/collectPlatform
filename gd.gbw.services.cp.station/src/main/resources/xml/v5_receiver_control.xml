@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="GB2312" standalone="yes"?>
+<Msg Version="5" MsgID="2" Type="RadioUp" DateTime="2002-08-17 15:30:00" SrcCode="110000R01" DstCode="110000X01" ReplyID="1">
+	<Return Type="ReceiverControl" Value="0" Desc="成功"/>
+	<ReceiverControlReport EquCode="R1" URL="http://10.1.1.21:5050/1">
+		<Param Value="A0BERE2223"/>
+	</ReceiverControlReport>
+</Msg>

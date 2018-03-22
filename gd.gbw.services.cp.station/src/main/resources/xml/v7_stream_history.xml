@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="GB2312" standalone="yes"?>
+<Msg Version="7" MsgID="2" Type="RadioUp" DateTime="2002-08-17 15:30:00" SrcCode="110000R01" DstCode="110000X01" ReplyID="-1">
+	<Return Type="StreamHistoryQuery" Value="0" Desc="成功"/>
+	<StreamHistoryReport EquCode="110000R00001" TaskID="320020000">
+		<TaskRecord Band="1" Freq="828">
+			<Record RecordID="111122" StartDateTime="2002-08-17 15:30:00" EndDateTime="2002-08-17 19:30:00" URL="http://10.1.1.111/a.wmv" FileName="TzD18B_1000528406_20120511170240_20120511170250_106800_R2.zip" size="34535"/>
+			<Record RecordID="111123" StartDateTime="2002-08-18 15:30:00" EndDateTime="2002-08-18 19:30:00" URL="http://10.1.1.111/b.wmv" FileName="TzD18B_1000528406_20120511170240_20120511170250_106800_R2.zip" size="34535"/>
+		</TaskRecord>
+		<TaskRecord Band="1" Freq="939">
+			<Record RecordID="111122" StartDateTime="2002-08-17 15:30:00" EndDateTime="2002-08-17 19:30:00" URL="http://10.1.1.111/c.wmv" FileName="TzD18B_1000528406_20120511170240_20120511170250_106800_R2.zip" size="34535"/>
+			<Record RecordID="111123" StartDateTime="2002-08-18 15:30:00" EndDateTime="2002-08-18 19:30:00" URL="http://10.1.1.111/d.wmv" FileName="TzD18B_1000528406_20120511170240_20120511170250_106800_R2.zip" size="34535"/>
+		</TaskRecord>
+	</StreamHistoryReport>
+</Msg>

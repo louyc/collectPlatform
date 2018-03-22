@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="GB2312" standalone="yes"?>
+<Msg Version="5" MsgID="2" Type="RadioUp" DateTime="2002-08-17 15:30:00"  SrcCode="SJZXCJD" DstCode="NEU116" ReplyID="-1">
+	<Return Type="QualityAlarmHistoryQuery" Value="0" Desc="成功"/>
+	<QualityAlarmHistoryReport>
+		<QualityAlarm EquCode="R1" AlarmID="1100" Mode="0" Band="1" Freq="828" Type="1" Desc="电平报警" Reason="电平过低" CheckDateTime="2002-08-17 15:30:00">
+			<AlarmParam Name="Level" Value="1.7"/>
+			<AlarmParam Name="AM-Modulation" Value="80"/>
+			<AlarmParam Name="Attenuation" Value="2"/>
+		</QualityAlarm>
+		<QualityAlarm EquCode="R1" AlarmID="1100" Mode="0" Band="1" Freq="828" Type="2" Desc="调幅度报警" Reason="调幅度高" CheckDateTime="2002-08-17 15:30:00">
+			<AlarmParam Name="Level" Value="1.7"/>
+			<AlarmParam Name="AM-Modulation" Value="80"/>
+			<AlarmParam Name="Attenuation" Value="2"/>
+		</QualityAlarm>
+	</QualityAlarmHistoryReport>
+</Msg>
+

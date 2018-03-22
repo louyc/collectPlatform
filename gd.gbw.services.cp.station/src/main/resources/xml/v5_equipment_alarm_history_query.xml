@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="GB2312" standalone="yes"?>
+<Msg Version="8" MsgID="2" Type="RadioUp" DateTime="2002-08-17 15:30:00" SrcCode="SJZXCJD" DstCode="NEU55" ReplyID="1">
+	<Return Type="EquipmentAlarmHistoryQuery" Value="0" Desc="成功"/>
+	<EquipmentAlarmHistoryReport>
+		<EquipmentAlarm EquCode="110000R00001" AlarmID="1100" Mode="0" Desc="供电异常" Type="1" Reason="报警原因" CheckDateTime="2003-01-23 09:03:31">
+			<Param Name="OutputLineLevel" Value="231"/>
+			<Param Name="InputLineLevel" Value="231"/>
+			<Param Name="LineFrequency" Value="53.3"/>
+			<Param Name="BatteryLevel" Value="13.70"/>
+			<Param Name="UPSStatus" Value="255"/>
+		</EquipmentAlarm>
+		<EquipmentAlarm EquCode="110000R00001" AlarmID="1101" Mode="0" Desc="接收机异常" Type="2" Reason="报警原因" CheckDateTime="2003-01-23 09:03:31"/>
+		<EquipmentAlarm EquCode="110000R00001" AlarmID="1104" Mode="0" Desc="调制度卡异常报警" Type="3" Reason="报警原因" CheckDateTime="2003-01-23 09:03:31"/>
+		<EquipmentAlarm EquCode="110000R00001" AlarmID="1102" Mode="0" Desc="调幅度卡异常报警" Type="4" Reason="报警原因" CheckDateTime="2003-01-23 09:03:31"/>
+		<EquipmentAlarm EquCode="110000R00001" AlarmID="1103" Mode="0" Desc="语音压缩卡异常报警" Type="5" Reason="报警原因" CheckDateTime="2003-01-23 09:03:31"/>
+		<EquipmentAlarm EquCode="110000R00001" AlarmID="1106" Mode="0" Desc="频偏卡异常报警" Type="6" Reason="报警原因" CheckDateTime="2003-01-23 09:03:31"/>
+	</EquipmentAlarmHistoryReport>
+</Msg>

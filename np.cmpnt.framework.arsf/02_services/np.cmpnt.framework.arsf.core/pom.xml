@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<relativePath>../../01_build/compiled/</relativePath>
+		<groupId>np.cmpnt.framework.arsf.build</groupId>
+		<artifactId>arsf.build.compiled</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+
+	<groupId>np.cmpnt.framework.arsf.services</groupId>
+	<artifactId>np.cmpnt.framework.arsf.core</artifactId>
+			
+	<properties>
+		<bundle.symbolicName>np.cmpnt.framework.arsf.core</bundle.symbolicName>
+	</properties>
+
+	<name>${bundle.symbolicName}</name>
+
+	<packaging>bundle</packaging>
+
+</project>

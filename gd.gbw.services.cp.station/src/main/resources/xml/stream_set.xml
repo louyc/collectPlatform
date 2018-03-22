@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="GB2312" standalone="yes"?>
+<Msg Version="8" MsgID="2" Type="RadioUp" DateTime="2002-08-17 15:30:00" SrcCode="R61D01" DstCode="CBT01" ReplyID="1">
+	<Return Type="StreamTaskSet" Value="0" Desc="成功">
+	</Return>
+</Msg>

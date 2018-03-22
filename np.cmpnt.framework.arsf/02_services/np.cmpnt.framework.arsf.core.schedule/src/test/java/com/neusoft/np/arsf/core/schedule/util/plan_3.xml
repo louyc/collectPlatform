@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<messages>
+	<message>
+		<property key="syncType" value="" />
+		<property key="serial" value="" />
+
+		<property key="handlerId" value="test_1" />
+		<property key="messageCode" value="msg00001" />
+
+		<property key="taskScheduleType" value="6" />
+		<property key="nextTime" value="2014-05-19 14:49:22" />
+		<property key="period" value="1" />
+	</message>
+
+	<message>
+		<property key="syncType" value="" />
+		<property key="serial" value="" />
+
+		<property key="handlerId" value="test_1" />
+		<property key="messageCode" value="msg00002" />
+
+		<property key="taskScheduleType" value="6" />
+		<property key="nextTime" value="2014-05-19 14:49:22" />
+		<property key="period" value="2" />
+	</message>
+</messages>

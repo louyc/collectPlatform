@@ -1,0 +1,42 @@
+Manifest-Version: 1.0
+Export-Package: com.neusoft.gbw.infrastructure;version="1.0.0",
+ com.neusoft.gbw.infrastructure.vo;version="1.0.0",
+ com.neusoft.gbw.infrastructure.base;version="1.0.0",
+ com.neusoft.gbw.infrastructure.base.typehandler;version="1.0.0",
+ com.neusoft.gbw.infrastructure.sys.intf.dto;version="1.0.0",
+ com.neusoft.gbw.infrastructure.msgcenter.intf;version="1.0.0",
+ com.neusoft.gbw.infrastructure.msgcenter.srv;version="1.0.0",
+ com.neusoft.gbw.domain.evaluation.intf.dto;version="1.0.0",
+ com.neusoft.gbw.domain.radio.intf.dto;version="1.0.0",
+ com.neusoft.gbw.domain.mgr.radio.intf.dto;version="1.0.0",
+ com.neusoft.gbw.app.mgr.radioMgr.infr;version="1.0.0",
+ com.neusoft.gbw.domain.monitor.intf.dto;version="1.0.0",
+ com.neusoft.gbw.domain.abnormal.intf.dto;version="1.0.0",
+ com.neusoft.gbw.domain.task;version="1.0.0",
+ com.neusoft.gbw.domain.task.effect.intf.dto;version="1.0.0",
+ com.neusoft.gbw.domain.task.mgr.intf.dto;version="1.0.0",
+ com.neusoft.gbw.domain.util;version="1.0.0", 
+ com.neusoft.gbw.domain.exception;version="1.0.0",
+ com.neusoft.gbw.duties.quota.vo;version="1.0.0",
+ com.neusoft.gbw.app.evaluation.intf.dto;version="1.0.0",
+ com.neusoft.gbw.app.monitorMgr.intf.dto;version="1.0.0",
+ com.neusoft.gbw.app.radioMgr.intf.dto;version="1.0.0"
+Bundle-Vendor: Neusoft
+Bundle-Version: 1.0.0
+Tool: Bundlor 1.1.2.RELEASE 
+Bundle-Name: Data Analysis Processor Core (DA Processor)
+Bundle-ManifestVersion: 2
+Bundle-SymbolicName: gd.gbw.services.da.core
+Bundle-ClassPath: lib/gd.gbw.services.cp.conver.dto-1.0.0-SNAPSHOT.jar,
+ lib/gd.gbw.services.domain.task-1.0.0-SNAPSHOT.jar,
+ lib/gd.gbw.services.infrastructure-1.0.0-SNAPSHOT.jar,
+ lib/gd.gbw.services.app.monitorMgr-1.0.0-SNAPSHOT.jar,
+ lib/gd.gbw.services.domain.monitor-1.0.0-SNAPSHOT.jar,
+ lib/gd.gbw.services.domain.radio-1.0.0-SNAPSHOT.jar,
+ lib/gd.gbw.services.domain.mgr.radio-1.0.0-SNAPSHOT.jar,
+ lib/gd.gbw.services.app.radioMgr-1.0.0-SNAPSHOT.jar,
+ lib/gd.gbw.services.app.mgr.radioMgr-1.0.0-SNAPSHOT.jar,
+ .
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+
+

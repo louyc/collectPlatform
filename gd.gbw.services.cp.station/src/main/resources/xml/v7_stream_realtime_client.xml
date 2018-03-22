@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="GB2312" standalone="yes" ?> 
+ <Msg Version="8" MsgID="2" Type="RadioUp" DateTime="2006-08-17 15:30:00" SrcCode="R61D01" DstCode="CBT01" ReplyID="1">
+    <Return Type="StreamRealtimeClientQuery" Value="0" Desc="chenggong" /> 
+       <StreamRealtimeClientReport>
+          <StreamRealtime EquCode="R1" URL="http://10.143.2.100/8080/1" Freq="828" Bps="32000" >
+ 	  		<ClientInfo IP="10.10.2.61"/> 
+ 		  </StreamRealtime>
+ 	   </StreamRealtimeClientReport>
+ </Msg>

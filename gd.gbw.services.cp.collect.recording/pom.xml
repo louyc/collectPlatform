@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<relativePath>../../01_build/compiled/</relativePath>
+		<groupId>gd.gbw.build</groupId>
+		<artifactId>gbw4app.build.compiled</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+
+	<groupId>gd.gbw.services4a</groupId>
+	<artifactId>gd.gbw.services.cp.collect.recording</artifactId>
+
+	<name>gd.gbw.services.cp.collect.recording</name>
+
+	<packaging>bundle</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>gd.gbw.services4a</groupId>
+			<artifactId>gd.gbw.services.cp.core</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>np.cmpnt.framework.arsf.services</groupId>
+			<artifactId>np.cmpnt.framework.arsf.base</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.neusoft.np</groupId>
+			<artifactId>com.neusoft.np.common.net.socket</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>jl</groupId>
+			<artifactId>jl</artifactId>
+			<version>1.0.1</version>
+			<scope>runtime</scope>
+		</dependency>
+	</dependencies>
+
+</project>

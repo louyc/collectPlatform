@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: arsf.service
+Bundle-SymbolicName: np.cmpnt.framework.arsf.service
+Bundle-Version: 1.0.0
+Bundle-Vendor: NEUSOFT
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7

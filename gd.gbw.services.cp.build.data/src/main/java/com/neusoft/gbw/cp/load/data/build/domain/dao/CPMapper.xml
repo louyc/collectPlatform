@@ -1,0 +1,463 @@
+<!-- Copyright 2009-2012 The MyBatis Team Licensed under the Apache License, 
+<?xml version="1.0" encoding="UTF-8"?>
+	Version 2.0 (the "License"); you may not use this file except in compliance 
+	with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+	Unless required by applicable law or agreed to in writing, software distributed 
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+	the specific language governing permissions and limitations under the License. -->
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.neusoft.gbw.cp.load.data.build.domain.dao.CPMapper">
+
+	<select id="selectFtpServerInfoList" resultType="com.neusoft.gbw.cp.load.data.build.domain.dao.bean.FtpServerInfo">
+		<!-- SELECT DISTINCT(t.ftp_path), t.ftp_account, t.ftp_password 
+		  FROM gbmo_report_info_cft t 
+		 WHERE t.in_use=1 -->
+		SELECT DISTINCT(t.upload_ip) ftp_ip, t.upload_url ftp_path, t.user_name ftp_account, t.passwd ftp_password 
+		FROM gbsy_upload_server_int t 
+		WHERE t.in_use=1
+	</select>
+
+	<select id="selectMonMachineList" resultType="com.neusoft.gbw.cp.load.data.build.domain.dao.bean.MonMachineTable">
+		SELECT
+			m.monitor_id,
+			m.machine_id,
+			n.item_name as machine_code,
+			m.model_id,
+			x.item_name as model_name,
+			m.usage_mode,
+			m.is_default
+		FROM
+			gbmo_moni_device_cft m,
+			(SELECT 
+				t.item_name, 
+				t.item_value
+			FROM nm_dic_comm_t t
+			WHERE dic_type = 30006) n,
+			(SELECT 
+				t.item_name, 
+				t.item_value
+			FROM nm_dic_comm_t t
+			WHERE dic_type = 30005) x
+		WHERE to_number(n.item_value) = m.machine_id
+		  AND to_number(x.item_value) = m.model_id
+		  AND m.in_use = 1
+	</select>
+
+	<select id="selectMonitorInfoList" resultType="com.neusoft.gbw.cp.load.data.build.domain.dao.bean.MonitorInfo">
+	  <!-- SELECT
+			f.monitor_id,
+			f.type_id,
+			f.monitor_code,
+			f.version_id,
+			f.manufacturer_id,
+			f.device_ip,
+			x.protocol,
+			x.port,
+			x.url,
+			case x.experMeasureUnitTime when '' THEN '20' ELSE x.experMeasureUnitTime END experMeasureUnitTime,
+			case x.broadMeasureUnitTime when '' THEN '60' ELSE x.broadMeasureUnitTime END broadMeasureUnitTime,
+			case x.taskRecordLength_gather when '' THEN '00:00:30' ELSE x.taskRecordLength_gather END taskRecordLength_gather,
+			case x.taskRecordLength_listen when '' THEN '00:00:30' ELSE x.taskRecordLength_listen END taskRecordLength_listen
+		FROM
+			(
+			SELECT 
+				n.monitor_id,
+				MAX (CASE conf_code WHEN 'taskRecordLength' THEN conf_value ELSE '' END) taskRecordLength,		
+				MAX (CASE conf_code WHEN 'taskRecordLength_listen' THEN conf_value ELSE '' END) taskRecordLength_listen,		
+				MAX (CASE conf_code WHEN 'taskRecordLength_gather' THEN conf_value ELSE '' END) taskRecordLength_gather,				
+				MAX (CASE conf_code WHEN 'guangboMeasureUnitTime' THEN conf_value ELSE '' END) broadMeasureUnitTime,
+				MAX (CASE conf_code WHEN 'shiyanMeasureUnitTime' THEN conf_value ELSE '' END) experMeasureUnitTime,
+				MAX (CASE conf_code WHEN 'monitorProtocol' THEN conf_value ELSE '' END) protocol,
+				MAX (CASE conf_code WHEN 'monitorPort' THEN conf_value ELSE '' END) port,
+				MAX (CASE conf_code WHEN 'monitorUrl' THEN conf_value ELSE '' END) url
+			FROM ( 
+				SELECT 
+					T .monitor_id,
+					T .conf_code,
+					T .conf_value
+				FROM
+					gbmo_moni_conf_cft T
+				WHERE
+					  T.conf_code = 'monitorProtocol' OR T.conf_code = 'monitorPort' OR T.conf_code = 'monitorUrl' OR T.conf_code='guangboMeasureUnitTime' 
+				 OR T.conf_code='shiyanMeasureUnitTime' OR T.conf_code='taskRecordLength_gather' OR T.conf_code='taskRecordLength_listen'
+				 OR T.conf_code='taskControlModel'
+				) n
+			GROUP BY n.monitor_id
+			) x, gbmo_monitor_info_cft f
+		WHERE x.monitor_id = f.monitor_id
+		  AND f.in_use = 1  -->
+SELECT
+      f.monitor_id,
+      f.type_id,
+      f.monitor_code,
+      f.version_id,
+      f.manufacturer_id,
+      f.device_ip,
+      f.online_state,
+      f.alias_name,
+      f.alias_code,
+      f.ftp_ip,
+      f.ftp_username,
+      f.ftp_password,
+      f.ftp_path,
+      x.protocol,
+      x.port,
+      x.url,
+      NVL(x.experMeasureUnitTime,'20') experMeasureUnitTime,
+      NVL(x.broadMeasureUnitTime,'60') broadMeasureUnitTime,
+      NVL(x.taskRecordLength_gather,'00:00:30')  taskRecordLength_gather,
+      NVL(x.taskRecordLength_listen ,'30')  taskRecordLength_listen,
+      NVL(x.taskControlModel,'0') AS taskControlModel,
+      NVL(x.guangboDelayTime,'0') AS guangboDelayTime,
+      NVL(x.shiyanDelayTime,'0') AS shiyanDelayTime
+    FROM
+      (
+      SELECT 
+        n.monitor_id,
+        MAX (CASE conf_code WHEN 'taskRecordLength' THEN conf_value ELSE '' END) taskRecordLength,    
+        MAX (CASE conf_code WHEN 'taskRecordLength_listen' THEN conf_value ELSE '' END) taskRecordLength_listen,    
+        MAX (CASE conf_code WHEN 'taskRecordLength_gather' THEN conf_value ELSE '' END) taskRecordLength_gather,        
+        MAX (CASE conf_code WHEN 'guangboMeasureUnitTime' THEN conf_value ELSE '' END) broadMeasureUnitTime, 
+        MAX (CASE conf_code WHEN 'shiyanMeasureUnitTime' THEN conf_value ELSE '' END) experMeasureUnitTime,
+        MAX (CASE conf_code WHEN 'monitorProtocol' THEN conf_value ELSE '' END) protocol,
+        MAX (CASE conf_code WHEN 'monitorPort' THEN conf_value ELSE '' END) port,
+        MAX (CASE conf_code WHEN 'taskControlModel' THEN conf_value ELSE '' END) taskControlModel,
+        MAX (CASE conf_code WHEN 'guangboDelayTime' THEN conf_value ELSE '' END) guangboDelayTime,
+        MAX (CASE conf_code WHEN 'shiyanDelayTime' THEN conf_value ELSE '' END) shiyanDelayTime,
+        MAX (CASE conf_code WHEN 'monitorUrl' THEN conf_value ELSE '' END) url
+      FROM ( 
+        SELECT 
+          T .monitor_id,
+          T .conf_code,
+          T .conf_value
+        FROM
+          gbmo_moni_conf_cft T
+        WHERE
+            T.conf_code = 'monitorProtocol' OR T.conf_code = 'monitorPort' OR T.conf_code = 'monitorUrl' OR T.conf_code='guangboMeasureUnitTime' 
+         OR T.conf_code='shiyanMeasureUnitTime' OR T.conf_code='taskRecordLength_gather' OR T.conf_code='taskRecordLength_listen'
+         OR T.conf_code='taskControlModel' OR T.conf_code='guangboDelayTime' OR T.conf_code='shiyanDelayTime'
+        ) n
+      GROUP BY n.monitor_id
+      ) x, gbmo_monitor_info_cft f
+    WHERE x.monitor_id = f.monitor_id
+      AND f.in_use = 1  order by taskControlModel desc ,monitor_code asc
+	</select>
+	
+	<select id="selectQualityTypeList" resultType="com.neusoft.gbw.cp.load.data.build.domain.dao.bean.QualityTypeTable">
+		select
+			t.quality_code,
+			t.table_name,
+			t.platform_store
+		from gbta_quality_type_cft t
+	</select>
+
+	<select id="selectMeasureTaskList" resultType="com.neusoft.gbw.cp.load.data.build.domain.dao.bean.TaskTable">
+		select
+			t.task_id,
+			t.task_create_time,
+			t.task_name,
+			t.task_build_mode,
+			t.task_type_id,
+			t.task_priority,
+			t.validity_b_time,
+			t.validity_e_time,
+			t.is_timelapse,
+			t.time_lapse,
+			t.task_status_id,
+			d.item_name task_status_desc,
+			t.recycle_status_id,
+			t.recycle_time,
+			t.over_status,
+			t.sync_status,
+			t.data_status,
+			t.in_use
+		from gbta_task_t t LEFT JOIN (select * from nm_dic_comm_t dic where dic.dic_type = 20010 and dic.in_use = 1) d
+			on t.task_status_id = d.item_id
+		where t.over_status = 0 
+		  and t.data_status = 0
+		 <!--  and t.in_use = 1 -->
+	</select>
+	
+	<select id="selectTaskFreqList" resultType="com.neusoft.gbw.cp.load.data.build.domain.dao.bean.TaskFreqTable">
+		select
+			t.taskfreq_id,
+			t.task_id,
+			t.freq,
+			t.band,
+			t.receiver_code,
+			t.code_rate,
+			t.sync_status
+		from gbta_task_freq_t t
+		order by t.task_id desc
+	</select>
+	
+	<select id="selectTaskConfList" resultType="com.neusoft.gbw.cp.load.data.build.domain.dao.bean.TaskConfTable">
+		select
+			t.id,
+			t.task_id,
+			t.conf_code,
+			t.conf_value,
+			t.is_use
+		from gbta_task_conf_t t
+	</select>
+	
+	<select id="selectTaskMonitorList" resultType="com.neusoft.gbw.cp.load.data.build.domain.dao.bean.TaskMonitorTable">
+		select
+			t.task_id,
+			t.monitor_id,
+			n.device_ip,
+			n.type_id,
+			n.monitor_code
+		from gbta_task_monitor_t t, gbmo_monitor_info_cft n
+		where t.monitor_id = n.monitor_id
+	</select>
+	
+	<select id="selectTaskScheduleList" resultType="com.neusoft.gbw.cp.load.data.build.domain.dao.bean.TaskScheduleTable">
+		select
+			t.time_id,
+			t.taskfreq_id,
+			t.runplan_id,
+			t.schedule_type,
+			t.dayofweek,
+			t.reportmode,
+			t.starttime,
+			t.endtime,
+			t.expiredays,
+			t.is_overhaul,
+			t.sync_status,
+			run.valid_start_time,
+			run.valid_end_time
+		from gbta_task_schedule_t t
+		LEFT JOIN gbrd_runplan_t run
+		on t.runplan_id = run.runplan_id
+		where (SYSDATE &lt; run.valid_end_time    <!-- now()  &lt;-->
+		 and run.valid_start_time &lt; SYSDATE)   <!--  -->
+ 		  or run.valid_start_time is null
+	</select>
+	  
+	<select id="selectTimeIntervalList" resultType="com.neusoft.gbw.cp.load.data.build.domain.dao.bean.TaskTimeIntervalTable">
+		SELECT t.item_name, t.item_value
+		  FROM nm_dic_comm_t t
+ 		 WHERE t.in_use = 1
+	 	   AND t.dic_type = '80001'
+	</select>
+	
+	<select id="selectRecordStoreAddrList" resultType="java.util.Map">
+		SELECT switch_type,switch_value
+		  FROM gbsy_switch_int
+		 WHERE ID in (50001,50002,50003,50004,50005,50006)
+	</select>
+	
+	<select id="selectStreamList" resultType="java.util.Map">
+		SELECT monitor_id,monitor_code,freq,receiver_code,bps
+		  FROM GBTA_INSPECT_MONITOR
+	</select>
+	
+	<select id="selectMeasureStationList" resultType="java.util.Map">
+		select DISTINCT v.runplan_id,v.station_name from gbrd_runplan_infos_v v
+	</select>
+	
+	<!-- 提取未完成的收测单元，自动 -->
+	<select id="selectMeasureAutoUnitList" resultType="com.neusoft.gbw.cp.load.data.build.domain.dao.bean.MeasureUnitTable">
+		SELECT
+			0 AS task_build_mode,
+			unit.task_id,
+			unit.task_unit_id,
+			unit.monitor_id,
+			unit.runplan_id,
+			unit.unit_create_time,
+			unit.unit_collect_time,
+			unit.unit_status_id,
+			unit.eval_url
+		FROM
+			gbta_unit_t unit
+		WHERE
+		 	SYSDATE &lt; unit.unit_end   <!--  -->
+		 and  unit.unit_begin &lt; SYSDATE   <!--  -->
+	</select>
+	
+	<!-- 提取未完成的收测单元，手动 -->
+	<select id="selectMeasureManualUnitList" resultType="com.neusoft.gbw.cp.load.data.build.domain.dao.bean.MeasureUnitTable">
+		SELECT
+			1 AS task_build_mode,
+			man.task_id,
+			man.task_range_id task_unit_id,
+			man.monitor_id,
+			man.runplan_id,
+			man.unit_create_time,
+			man.unit_collect_time,
+			man.unit_status_id,
+			man.eval_url
+		FROM
+			gbta_manual_task_range_t man
+		WHERE
+			 man.runplan_id is not null
+		 AND SYSDATE &lt; man.unit_end          <!--  -->
+		 and  man.unit_begin &lt; SYSDATE       <!--  -->
+	</select>
+	
+	
+	<delete id="deleteMeasureUnitRecords" parameterType="java.util.List">
+ 		delete from gbta_unit_t
+		 where task_unit_id in
+		(<foreach collection="list" item="item" index="index"  separator="," >
+  		 #{item.id}
+		</foreach>)
+   </delete> 
+   
+   	<delete id="deleteManualUnitRecords" parameterType="java.util.List">
+ 		delete from gbta_manual_task_range_t
+		 where task_range_id in
+		(<foreach collection="list" item="item" index="index"  separator="," >
+  		 #{item.id}
+		</foreach>)
+   </delete> 
+   
+   	<!-- 提取实时收测站点信息-->
+	<select id="selectRealMeasureSiteList" resultType="java.util.Map">
+		SELECT 
+			info.monitor_id,
+			cft.runplan_type_id,
+			cft.type_id as monitor_status
+		FROM
+			gbmo_monitor_group_cft cft
+		JOIN gbmo_monitor_group_item_t item ON cft.monitor_group_id = item.monitor_group_id
+		JOIN gbmo_monitor_info_cft info ON info.monitor_id = item.monitor_id
+		WHERE
+		 cft.in_use = 1
+		AND info.in_use = 1
+	</select>
+   	<!-- 提取站点和采集平台关系信息-->
+	<select id="selectMonPartFormList" resultType="java.util.Map">
+		SELECT 
+			gmc.monitor_id,
+			gmc.machine_ip
+		FROM
+			gbmo_machine_cft gmc
+		JOIN gbmo_monitor_info_cft info ON info.monitor_id = gmc.monitor_id
+		WHERE
+		 gmc.in_use = 1
+		AND info.in_use = 1
+	</select>
+	
+	<!-- 提取任务回收时间戳数据-->
+	<select id="selectRecoverTimeList" resultType="java.util.Map">
+		SELECT
+			rec.task_id || '_' || rec.freq_id || '_' || rec.monitor_id || '_' || rec.task_type AS reckey,
+			to_char(rec.recover_time,'yyyy-MM-dd HH24:mi:ss') recover_time
+		FROM
+			gbta_quality_recover_t rec
+	</select>
+	
+	<!-- 提取站点任务回收数据-->
+	<select id="selectRecoverDateList"  resultType="java.util.Map">
+		SELECT
+				distinct(rec.task_type),rec.monitor_id,
+				to_char(rec.recover_time,'yyyy-MM-dd HH24:mi:ss') recover_time,
+	      rec.task_id,
+	      dat.*
+			FROM
+				gbta_quality_recover_t rec left join gbta_record_dat dat on rec.task_id = dat.task_id
+			where recover_time &gt; trunc(sysdate) and recover_time &lt;trunc(sysdate)+1 
+		   	 and start_time &gt; trunc(sysdate) and start_time &lt;trunc(sysdate)+1
+		   	 <!--  and round(to_number(recover_time - start_time)*24*60)&lt;20
+		   	 and round(to_number(recover_time - start_time)*24*60)&gt;0-->
+		   	 and abs(round(to_number( sysdate- recover_time)*24*60))&lt;20
+		   	 order by recover_time desc,start_time desc
+	</select>
+	<!-- 提取遥控站巡检文件数据-->
+	<select id="selectMonitorInspectVadioList"  resultType="java.util.Map">
+		SELECT
+			rec.monitor_id,rec.radio_url,rec.eval_url
+		FROM
+			gbta_inspect_monitor rec
+	</select>
+
+	
+	
+	<!-- 查询运行图与语言和发射台-->
+	<select id="selectRunplanViewList" resultType="com.neusoft.gbw.cp.load.data.build.domain.dao.bean.RunplanView">
+		SELECT
+			v.runplan_id,
+			v.station_id,
+			v.transmitter_no,
+			v.freq,
+			v.band,
+			v.direction,
+			v.program_type_id,
+			v.program_id,
+			v.language_id,
+			v.start_time,
+			v.end_time,
+			V.broadcast_type_id,
+			v.radio_type_id,
+			v.time_type_id,
+			v.task_type_id,
+			v.service_area
+		FROM
+			gbrd_runplan_infos_v v
+		WHERE
+			v.data_status = 0
+	</select>
+	
+	<!-- 查询发射台的权值-->
+	<select id="selectStationList" resultType="java.util.Map">
+		SELECT
+			station_id, priority_level
+		FROM
+			gbrd_station_t
+	</select>
+	
+	<!-- 查询语言的权值-->
+	<select id="selectLanguageList" resultType="java.util.Map">
+		SELECT
+			language_id, priority_level
+		FROM
+			gbsy_language_t
+	</select>
+	
+		<!-- 查询设备告警类型-->
+	<select id="selectEquAlarmTypeList" resultType="java.util.Map">
+		SELECT
+			T .item_value alarm_value,
+			T .item_name alarm_name
+		FROM
+			nm_dic_comm_t T
+		WHERE
+			T .dic_type = 40003
+	</select>
+	
+		<!-- 查询设备告警数据-->
+	<select id="selectEquAlarmList" parameterType="java.util.Map" resultType="com.neusoft.gbw.cp.core.store.EquAlarm">
+		SELECT
+			T .alarm_id alarmId,
+			T .monitor_id monitorId,
+			T .event_id eventId,
+			T .center_id centerId,
+			T .alarm_kind alarmKind,
+			<!-- T .kg_id kgId, 
+ 			T .kpi_item kpiItem,
+ 			T .alarm_level_id alarmLevelId,
+     		T .alarm_title alarmTitle, -->
+ 			T .alarm_begin_time alarmBeginTime,
+			T .alarm_type_id alarmTypeId,
+			T .alarm_content alarmContent,
+			T .alarm_cause alarmCause,
+			T .alarm_additional_text alarmAdditionalText,
+			T .alarm_state alarmState,
+ 		<!-- 	T .termination_oper terminationOper, 
+ 			T .termination_time terminationTime, 
+			T .termination_opinion terminationOpinion,  -->
+			T .alarm_end_time alarmEndTime
+		FROM gbal_equ_alarm_t T
+		WHERE
+			T .monitor_id = #{monitor_id,jdbcType=NUMERIC}  <!-- monitor_id  monitorid-->
+<!-- 		AND T .alarm_kind = #{alarm_kind} -->
+        AND T .alarm_type_id = #{alarm_type_id,jdbcType=NUMERIC} 
+		AND T .alarm_state = 0
+	</select>
+</mapper>

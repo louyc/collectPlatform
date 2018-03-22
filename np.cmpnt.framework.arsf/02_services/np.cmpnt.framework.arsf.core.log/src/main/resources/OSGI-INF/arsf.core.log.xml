@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="true" name="com.neusoft.np.arsf.core.log.Log4jImpl">
+   <implementation class="com.neusoft.np.arsf.core.log.Log4jImpl"/>
+   <service>
+      <provide interface="com.neusoft.np.arsf.service.log.Log"/>
+   </service>
+</scr:component>

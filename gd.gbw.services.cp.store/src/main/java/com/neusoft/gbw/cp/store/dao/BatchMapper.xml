@@ -1,0 +1,912 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2009-2012 The MyBatis Team Licensed under the Apache License, 
+	Version 2.0 (the "License"); you may not use this file except in compliance 
+	with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+	Unless required by applicable law or agreed to in writing, software distributed 
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+	the specific language governing permissions and limitations under the License. -->
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neusoft.gbw.cp.store.dao.BatchMapper">
+	
+	<insert id="insertQualityAlarm1" parameterType="java.util.Map">
+		<selectKey resultType="long" keyProperty="id" order="BEFORE">
+			SELECT   event_id_desc_sequence.nextval as id  FROM DUAL
+		</selectKey>
+		insert into gbal_localquality_event_dat(event_id,monitor_id,machine_id,model_id,
+		 event_time,
+		is_resume,freq,event_type_id,description,event_reason,e_level,fm_modulation,am_modulation,attenuation,report_type_id,
+		band_id,center_id)
+		select event_id_desc_sequence.nextval,A.* from(
+		[bandId=0, monitorId=20000000340, eventReason=指标回收失败, freq=1035, machineId=0, isResume=0, modelId=1,
+		 fmModulation=, attenuation=, description=回收失败, reportTypeId=0, amModulation=, eLevel=, 
+		 eventTime=Thu Apr 13 10:02:58 CST 2017, eventTypeId=4]
+		
+		select #{monitorId,jdbcType=NUMERIC},
+			  #{machineId,jdbcType=NUMERIC},
+			  #{modelId,jdbcType=NUMERIC},
+			  to_date(#{eventTime},'yyyy-mm-dd hh24:mi:ss'),
+			  #{isResume,jdbcType=NUMERIC},
+			  #{freq,jdbcType=NUMERIC},
+			  #{eventTypeId,jdbcType=NUMERIC},
+			  #{description,jdbcType=VARCHAR},
+			  #{eventReason,jdbcType=VARCHAR},
+			  #{eLevel,jdbcType=NUMERIC},
+			  #{fmModulation,jdbcType=NUMERIC},
+			  #{amModulation,jdbcType=NUMERIC},
+			  #{attenuation,jdbcType=NUMERIC},
+			  #{reportTypeId,jdbcType=NUMERIC},
+			  #{bandId,jdbcType=NUMERIC},
+			  t.center_id from ((select center_id from gbmo_monitor_info_cft where monitor_id=#{monitorId,jdbcType=NUMERIC})t)
+			  ) A
+	</insert>
+	
+	<insert id="insertQualityAlarm" parameterType="java.util.Map">
+	insert into gbal_localquality_event_dat(event_id,monitor_id,machine_id,model_id,
+		 event_time,
+		is_resume,freq,event_type_id,description,event_reason,e_level,fm_modulation,am_modulation,attenuation,report_type_id,
+		band_id,center_id)
+		select #{eventId,jdbcType=NUMERIC},
+			  #{monitorId,jdbcType=NUMERIC},
+			  #{machineId,jdbcType=NUMERIC},
+			  #{modelId,jdbcType=NUMERIC},
+			  to_date(#{eventTime},'yyyy-mm-dd hh24:mi:ss'),
+			  #{isResume,jdbcType=NUMERIC},
+			  #{freq,jdbcType=NUMERIC},
+			  #{eventTypeId,jdbcType=NUMERIC},
+			  #{description,jdbcType=VARCHAR},
+			  #{eventReason,jdbcType=VARCHAR},
+			  #{eLevel,jdbcType=NUMERIC},
+			  #{fmModulation,jdbcType=NUMERIC},
+			  #{amModulation,jdbcType=NUMERIC},
+			  #{attenuation,jdbcType=NUMERIC},
+			  #{reportTypeId,jdbcType=NUMERIC},
+			  #{bandId,jdbcType=NUMERIC},
+			  t.center_id from ((select center_id from gbmo_monitor_info_cft where monitor_id=#{monitorId,jdbcType=NUMERIC})t)
+	</insert>
+
+<!-- 插入指标报警前查询数据库是否有该数据 -->
+	<select id="beforeinsertQualityAlarm" parameterType="java.util.Map" resultType="String">
+    select  
+            to_char(t.event_id)  
+<!--              t.monitor_id, -->
+<!-- 			 t.MACHINE_ID, -->
+<!-- 			 t.MODEL_ID, -->
+<!--  			  to_date(t.EVENT_TIME,'yyyy-mm-dd hh24:mi:ss'),  -->			
+<!-- 			  t.IS_RESUME -->
+			 from   gbal_localquality_event_dat  t
+			  where  t.event_id = #{eventId,jdbcType=NUMERIC}  and   t.monitor_id  = #{monitorId,jdbcType=NUMERIC}  and  t.IS_RESUME=0
+			  
+</select>
+
+	
+<!--	<insert id="insertQualityDataRecords" parameterType="java.util.List">
+		insert into gbta_quality_dat(id,task_id,
+		   	monitor_id,receiver_code,
+		   	band,collect_time,
+		   	frequency,quality_code,
+		   	quality_value,store_time,
+		   	task_unique_id) 
+		select gbta_quality_id_seq.nextval,cd.* from(
+		<foreach collection="list" item="item" index="index" separator="UNION ALL" >
+            select 
+			  #{item.task_id,jdbcType=NUMERIC},
+			  #{item.monitor_id,jdbcType=NUMERIC},
+			  #{item.receiver_code,jdbcType=VARCHAR},
+			  #{item.band,jdbcType=NUMERIC},
+			  #{item.collect_time,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler},
+			  #{item.frequency,jdbcType=VARCHAR},
+			  #{item.quality_code,jdbcType=VARCHAR},
+			  #{item.quality_value,jdbcType=VARCHAR},
+			  #{item.store_time,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler},
+			  CAST(#{item.task_unique_id} AS Number(20))
+		</foreach>)cd
+	</insert>	-->
+	<insert id="insertQualityDataRecords" parameterType="java.util.List">    <!-- 指标回收-->
+		<selectKey resultType="long" keyProperty="id" order="BEFORE"> 
+			SELECT   gbta_quality_id_seq.nextval  FROM DUAL
+		</selectKey>
+		   	insert into gbta_quality_dat(id,task_id,monitor_id,receiver_code,band,collect_time,
+		   	frequency,quality_code,quality_value,store_time,task_unique_id)
+		   		
+		   	select gbta_quality_id_seq.nextval,A.* from(
+		<foreach collection="list" item="item" index="index" separator="UNION ALL" >
+               select 
+			  #{item.task_id,jdbcType=NUMERIC},
+			  #{item.monitor_id,jdbcType=NUMERIC},
+			  #{item.receiver_code,jdbcType=VARCHAR},
+			  #{item.band,jdbcType=NUMERIC},
+			  #{item.collect_time,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler},
+			  #{item.frequency,jdbcType=VARCHAR},
+			  #{item.quality_code,jdbcType=VARCHAR},
+			  #{item.quality_value,jdbcType=VARCHAR},
+			  #{item.store_time,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler},
+			  CAST(#{item.task_unique_id} AS Number(20))
+			  from dual
+		</foreach>) A
+	</insert>
+	
+	<insert id="insertQualityMaxDataRecords" parameterType="java.util.List">
+		<selectKey resultType="long" keyProperty="id" order="BEFORE">
+				SELECT   gbta_fmmodulation_qlt_id_seq.nextval FROM DUAL
+		</selectKey>
+		   	insert into gbta_fmmodulation_quality_dat(id,task_id,monitor_id,receiver_code,band,collect_time,frequency,
+		   	quality_code,min_value,max_value,store_time,task_unique_id)
+		   		 <!-- oracle 无此序列  有表       gbta_fmmodulation_qlt_id_seq-->
+		 	select gbta_fmmodulation_qlt_id_seq.nextval,A.* from(
+        <foreach collection="list" item="item" index="index"  separator="UNION ALL"  >
+             select 
+			  #{item.task_id,jdbcType=NUMERIC},#{item.monitor_id,jdbcType=NUMERIC},#{item.receiver_code,jdbcType=VARCHAR}, #{item.band,jdbcType=NUMERIC},
+			  #{item.collect_time,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler},
+			  #{item.frequency,jdbcType=VARCHAR},#{item.quality_code,jdbcType=VARCHAR},
+	 		  #{item.min_value,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2IntTypeHandler},
+	 		  #{item.max_value,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2IntTypeHandler},
+			  #{item.store_time,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler},
+			  CAST(#{item.task_unique_id} AS Number(20))
+			  from dual
+		</foreach>) A
+	</insert>
+	
+	<insert id="insertRecordDataRecords" parameterType="java.util.List">
+		<!-- insert into gbta_record_dat(id,task_id,monitor_id,band,start_time,end_time,frequency,filename,filesize,url,store_time,record_id,receiver_code,recover_status,task_unique_id)
+			values
+		<foreach collection="list" item="item" index="index"  separator="," >
+               (gbta_record_id_seq.nextval ,-->
+        <selectKey resultType="long" keyProperty="id" order="BEFORE">
+			 SELECT   gbta_record_id_seq.nextval FROM DUAL
+		</selectKey>
+		   	 insert into gbta_record_dat(id,task_id,monitor_id,band,start_time,end_time,frequency,filename,filesize,
+		   	 url,store_time,record_id,receiver_code,recover_status,task_unique_id)
+			 select gbta_record_id_seq.nextval,A.* from(
+        <foreach collection="list" item="item" index="index"  separator="UNION ALL"  >
+			  select 
+			  #{item.task_id,jdbcType=NUMERIC},#{item.monitor_id,jdbcType=NUMERIC},#{item.band,jdbcType=NUMERIC},
+			  #{item.record_stime,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler},
+			  #{item.record_etime,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler},
+			  #{item.frequency,jdbcType=VARCHAR},#{item.file_name,jdbcType=VARCHAR},#{item.record_size},#{item.url,jdbcType=VARCHAR},
+			  #{item.store_time,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler},
+			  #{item.record_id,jdbcType=NUMERIC},#{item.receiver_code,jdbcType=VARCHAR},#{item.recover_status,jdbcType=NUMERIC},CAST(#{item.task_unique_id} AS Number(20))
+			  from dual
+		</foreach>)A
+	</insert>
+	
+	<!-- 修改录音文件表中的状态和url -->
+	<update id="updateRecordFileUrl" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index">
+			update gbta_record_dat
+			   set recover_status=#{item.recover_status,jdbcType=NUMERIC},
+			       recover_url=#{item.recover_url,jdbcType=VARCHAR},
+			   	   store_time=#{item.store_time,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler}
+			 where id = #{item.id,jdbcType=NUMERIC}
+		</foreach>
+  	</update>
+	
+	
+	<delete id="deleteRecordDataRecords" parameterType="java.util.List">
+		delete from gbta_record_dat where record_id in
+			<foreach collection="list" item="item" index="index"  open="(" separator="," close=")">
+				 #{item.record_id} 
+			</foreach>
+   	</delete>
+	
+	<delete id="deleteQualityDataRecords" parameterType="java.util.List">
+		delete from gbta_quality_dat 
+		<where>
+		<foreach collection="list" item="item" index="index"  separator="or">
+			  (task_id = #{item.task_id,jdbcType=NUMERIC} 
+			  and monitor_id = #{item.monitor_id,jdbcType=NUMERIC} 
+			  and frequency = #{item.frequency,jdbcType=VARCHAR}
+			  and quality_code = #{item.quality_code,jdbcType=VARCHAR}
+			  and collect_time = #{item.collect_time,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler})
+		</foreach>
+		</where>
+   	</delete>
+   	
+   	<delete id="deleteQualityMaxDataRecords" parameterType="java.util.List">
+   	delete from gbta_fmmodulation_quality_dat
+   	<where>
+	<!-- 	<foreach collection="list" item="item" index="index"   open="(" separator="or" close=")"> -->
+		<foreach collection="list" item="item" index="index"  separator="or">
+			(task_id =#{item.task_id,jdbcType=NUMERIC} 
+			  and monitor_id = #{item.monitor_id,jdbcType=NUMERIC} 
+			  and frequency = #{item.frequency,jdbcType=VARCHAR}
+			  and quality_code = #{item.quality_code,jdbcType=VARCHAR}
+			  and collect_time = #{item.collect_time,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler}
+			  )
+		</foreach>
+	</where>
+   	</delete>
+
+	<!-- 修改异态告警实时表 -->
+	<update id="updateQualityAlarm" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index">
+			update gbal_localquality_event_dat
+			   set is_resume=1,
+			   	   resume_time=#{item.resumeTime,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler}
+			 where event_id=#{item.eventId,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2IntTypeHandler}
+		</foreach>
+  	</update>
+  	
+  	<!-- 修改异态告警确认表-->
+	<update id="updateConfQualityAlarm" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index">
+			update gbal_localquality_alarm_dat
+			   set is_resume=1,
+			   	   resume_time=#{item.resumeTime,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler}
+			 where event_id=#{item.eventId,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2IntTypeHandler}
+		</foreach>
+  	</update>
+  	
+  	<!-- 修改异态告警删除表-->
+	<update id="updateDelQualityAlarm" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index">
+			update gbal_localquality_his_dat
+			   set is_resume=1,
+			   	   resume_time=#{item.resumeTime,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler}
+			 where event_id=#{item.eventId,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2IntTypeHandler}
+		</foreach>
+  	</update>
+  	
+  	<!-- 修改所有异态告警实时表-->
+	<update id="updateAllQualityAlarm" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index">
+			update gbal_localquality_event_dat
+			   set is_resume=1,
+			   	   resume_time=#{item.resumeTime,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler}
+<!-- 			 where monitor_id=#{item.monitor_id,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2IntTypeHandler} -->
+<!-- 			 and machine_id=#{item.machine_id,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2IntTypeHandler} -->
+<!-- 			   and freq_id=#{item.freq_id,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2IntTypeHandler} -->
+			 where monitor_id=#{item.monitorId,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2IntTypeHandler} 	 
+			  and machine_id=#{item.machineId,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2IntTypeHandler} 
+			   and freq=#{item.freq,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2IntTypeHandler}  
+		</foreach>
+  	</update>
+  	
+  	<!-- 修改所有异态告警确认表-->
+	<update id="updateAllConfQualityAlarm" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index">
+			update gbal_localquality_alarm_dat
+			   set is_resume=1,
+			   	   resume_time=#{item.resumeTime,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler}
+			    where monitor_id=#{item.monitorId,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2IntTypeHandler} 	 
+			  and machine_id=#{item.machineId,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2IntTypeHandler} 
+			   and freq=#{item.freq,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2IntTypeHandler}  
+		</foreach>
+  	</update>
+  	
+  	<!-- 修改所有异态告警删除表-->
+	<update id="updateAllDelQualityAlarm" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index">
+			update gbal_localquality_his_dat
+			   set is_resume=1,
+			   	   resume_time=#{item.resumeTime,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler}
+			 where monitor_id=#{item.monitor_id,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2IntTypeHandler}
+			   and machine_id=#{item.machine_id,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2IntTypeHandler}
+			   and freq_id=#{item.freq_id,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2IntTypeHandler}
+		</foreach>
+  	</update>
+  	
+  	<update id="updateMoniTransferResultFailStore" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index">
+			update gbmo_monitor_info_cft
+			   set online_state= (case when online_state=3 then 3 else #{item.online_state,jdbcType=NUMERIC} end)
+			 where monitor_id=#{item.monitor_id,jdbcType=NUMERIC}
+		</foreach>
+  	</update>
+  	<update id="updateMoniTransferResultSucStore" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index">
+			update gbmo_monitor_info_cft
+			   set online_state=#{item.online_state,jdbcType=NUMERIC}
+			 where monitor_id=#{item.monitor_id,jdbcType=NUMERIC}
+		</foreach>
+  	</update>
+  	
+  	<update id="updateMoniStatusStore" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index">
+			update gbmo_monitor_info_cft
+			   set online_state= (case when online_state=2 then 2 else #{item.online_state,jdbcType=NUMERIC} end)
+			 where monitor_id=#{item.monitor_id,jdbcType=NUMERIC}
+		</foreach>
+  	</update>
+	
+	<update id="updateMeasureAutoUnitURLRecords" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index">
+			update gbta_unit_t 
+			set radio_url=#{item.radio_url,jdbcType=VARCHAR},
+				eval_url=#{item.eval_url,jdbcType=VARCHAR},
+				unit_collect_time=#{item.unit_collect_time,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler},
+				unit_status_id=#{item.unit_status_id,jdbcType=NUMERIC},
+				uncollect_reason=#{item.uncollect_reason,jdbcType=VARCHAR},
+				monitor_id = #{item.monitor_id,jdbcType=NUMERIC},
+				monitor_alias = #{item.monitor_alias,jdbcType=VARCHAR},
+				monitor_alias_code = #{item.monitor_alias_code,jdbcType=VARCHAR}
+			where unit_begin = #{item.unit_begin,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler}
+				and unit_end = #{item.unit_end,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler}
+		  		and task_id= #{item.task_id,jdbcType=NUMERIC}
+		  		and monitor_id = #{item.orgMonitorId,jdbcType=NUMERIC}
+ 				and runplan_type_id = #{item.runplan_type_id,jdbcType=NUMERIC}
+		  		and runplan_id = CAST(#{item.runplan_id} AS Number(20))
+		  		<!--  -->
+		</foreach>
+	</update>
+	
+	<update id="updateAutoStreamUnitURLRecords" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index">
+			update GBTA_INSPECT_MONITOR 
+			set radio_url=#{item.radio_url,jdbcType=VARCHAR},
+				eval_url=#{item.eval_url,jdbcType=VARCHAR},
+				status_id=#{item.status_id,jdbcType=NUMERIC},
+				reason=#{item.reason,jdbcType=VARCHAR}
+			where  monitor_id = #{item.monitor_id,jdbcType=NUMERIC}
+		</foreach>
+	</update>
+	<update id="updateInspectResultStore" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index">
+			update gbmo_moni_inspec_result_t 
+			set inspec_message = #{item.inspec_message,jdbcType=VARCHAR},
+			 	inspec_result =#{item.inspec_result,jdbcType=VARCHAR},
+			where time_stamp in(
+			select time_stamp from (
+			select * from gbmo_moni_inspec_result_t 
+			where inspec_code in('streamVadioState','taskStreamState') 
+			and monitor_id = #{item.monitor_id,jdbcType=NUMERIC}
+			 order by time_stamp desc)where  
+			 rownum &lt;2
+			)and inspec_code in('streamVadioState','taskStreamState') 
+		</foreach>
+	</update>
+	
+	<update id="updateAutoSteamStatus" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index">
+			update GBTA_INSPECT_MONITOR 
+			set 
+				status_id=#{item.status_id,jdbcType=NUMERIC}
+			where  monitor_id = #{item.monitor_id,jdbcType=NUMERIC}
+		</foreach>
+	</update>
+	
+	<update id="updateAutoStreamReasonStatus" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index">
+			update GBTA_INSPECT_MONITOR 
+			   set radio_url=#{item.radio_url,jdbcType=VARCHAR},
+				   eval_url=#{item.eval_url,jdbcType=VARCHAR},	
+			   	   reason=#{item.reason,jdbcType=VARCHAR},
+			  	   status_id=#{item.status_id,jdbcType=NUMERIC}
+			 where monitor_id = #{item.monitor_id,jdbcType=NUMERIC}
+		</foreach>
+	</update>
+	
+	
+	
+	<update id="updateMeasureManualUnitURLRecords" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index">
+			update gbta_manual_task_range_t 
+			set radio_url=#{item.radio_url,jdbcType=VARCHAR},
+				eval_url=#{item.eval_url,jdbcType=VARCHAR},
+				unit_collect_time=#{item.unit_collect_time,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler},
+				unit_status_id=#{item.unit_status_id,jdbcType=NUMERIC},
+				uncollect_reason=#{item.uncollect_reason,jdbcType=VARCHAR},
+				monitor_id = #{item.monitor_id,jdbcType=NUMERIC},
+				monitor_alias = #{item.monitor_alias,jdbcType=VARCHAR},
+				monitor_alias_code = #{item.monitor_alias_code,jdbcType=VARCHAR}
+			where unit_begin = #{item.unit_begin,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler}
+				and unit_end = #{item.unit_end,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler}
+		  		and task_id= #{item.task_id,jdbcType=NUMERIC}
+		  		and monitor_id = #{item.orgMonitorId,jdbcType=NUMERIC}
+		  		and runplan_type_id = #{item.runplan_type_id,jdbcType=NUMERIC}
+		  		and freq = #{item.freq,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2IntTypeHandler}
+		</foreach>
+	</update>
+	
+	<update id="updateMeasureAutoSafeAssessStatus" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index">
+			update gbta_unit_t 
+			   set unit_status_id=#{item.unit_status_id,jdbcType=NUMERIC},
+			   	   unit_collect_time=#{item.unit_collect_time,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler}
+			 where task_id= #{item.task_id,jdbcType=NUMERIC}
+		  	   and monitor_id = #{item.monitor_id,jdbcType=NUMERIC}
+		       and runplan_type_id = #{item.runplan_type_id,jdbcType=NUMERIC}
+		  	   and runplan_id = CAST(#{item.runplan_id} AS Number(20))
+		  	   and unit_status_id &lt;&gt; 0  
+		  	   and unit_status_id &lt;&gt; 4
+		</foreach>
+	</update>
+	
+	<update id="updateMeasureManualSafeAssessStatus" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index">
+			update gbta_manual_task_range_t 
+			   set unit_status_id=#{item.unit_status_id,jdbcType=NUMERIC}
+			 where task_id= #{item.task_id,jdbcType=NUMERIC}
+		  	   and monitor_id = #{item.monitor_id,jdbcType=NUMERIC}
+		  	   and runplan_type_id = #{item.runplan_type_id,jdbcType=NUMERIC}
+<!-- 		  	   and freq = #{item.freq,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2IntTypeHandler} -->
+		  	   and freq = #{item.freq,jdbcType=NUMERIC}
+		  	   and unit_status_id &lt;&gt; 0  
+		  	   and unit_status_id &lt;&gt; 4
+		</foreach>
+	</update>
+	
+		<update id="updateMeasureAutoLeakageReasonStatus" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index">
+			update gbta_unit_t 
+			   set uncollect_reason=#{item.uncollect_reason,jdbcType=VARCHAR},
+			       unit_collect_time=#{item.unit_collect_time,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler},
+			  	   unit_status_id=#{item.unit_status_id,jdbcType=NUMERIC}
+			 where task_id= #{item.task_id,jdbcType=NUMERIC}
+		  	   and monitor_id = #{item.monitor_id,jdbcType=NUMERIC}
+		       and runplan_type_id = #{item.runplan_type_id,jdbcType=NUMERIC}
+		  	   and runplan_id = #{item.runplan_id,jdbcType=NUMERIC}
+		  	   and unit_begin = to_date(#{item.unit_begin,jdbcType=TIMESTAMP},'yyyy-mm-dd hh24:mi:ss')
+			   and unit_end = to_date(#{item.unit_end,jdbcType=TIMESTAMP},'yyyy-mm-dd hh24:mi:ss')
+			   and unit_status_id &lt;&gt; 0  
+		  	   and unit_status_id &lt;&gt; 4
+		</foreach>
+	</update>
+	
+	<update id="updateMeasureManualLeakageReasonStatus" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index">
+			update gbta_manual_task_range_t 
+			   set uncollect_reason=#{item.uncollect_reason,jdbcType=VARCHAR},
+			 	   unit_collect_time=#{item.unit_collect_time,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler},
+			  	   unit_status_id=#{item.unit_status_id,jdbcType=NUMERIC}
+			 where task_id= #{item.task_id,jdbcType=NUMERIC}
+		  	   and monitor_id = #{item.monitor_id,jdbcType=NUMERIC}
+		  	   and runplan_type_id = #{item.runplan_type_id,jdbcType=NUMERIC}
+		  	   and runplan_id = #{item.runplan_id,jdbcType=NUMERIC}
+<!-- 		  	   and freq = #{item.freq,jdbcType=NUMERIC}
+ -->		   and unit_begin = to_date(#{item.unit_begin,jdbcType=TIMESTAMP},'yyyy-mm-dd hh24:mi:ss')
+			   and unit_end = to_date(#{item.unit_end,jdbcType=TIMESTAMP},'yyyy-mm-dd hh24:mi:ss')
+			   and unit_status_id &lt;&gt; 0  
+		  	   and unit_status_id &lt;&gt; 4
+		</foreach>
+	</update>
+	
+	<update id="updateMeasureOlineUnitURLRecords" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index">
+			update gbta_online_listener_monitor_t 
+			set radio_url=#{item.radio_url,jdbcType=VARCHAR},
+				eval_url=#{item.eval_url,jdbcType=VARCHAR}
+			where id = #{item.id,jdbcType=NUMERIC}
+		</foreach>
+	</update>
+
+  <update id="updateTaskFreqScheduleSyncStatusRecords" parameterType="java.util.List">
+	<foreach collection="list" item="item" index="index">
+		update gbta_task_schedule_t
+		set sync_status=#{item.sync_status,jdbcType=NUMERIC}
+		where time_id=#{item.time_id,jdbcType=NUMERIC}
+	</foreach>
+  </update>
+  
+  <update id="updateTaskFreqSyncStatusRecords" parameterType="java.util.List">
+	<foreach collection="list" item="item" index="index">
+		update gbta_task_freq_t
+		set sync_status=#{item.sync_status,jdbcType=NUMERIC}
+		where taskfreq_id=#{item.freq_id,jdbcType=NUMERIC}
+	</foreach>
+  </update>
+  
+  <update id="updateTaskSyncStatusRecords" parameterType="java.util.List">
+	<foreach collection="list" item="item" index="index">
+		update gbta_task_t
+		set task_status_id=#{item.task_status_id,jdbcType=NUMERIC}, 
+			<!-- issue_user_id=#{item.issue_user_id,jdbcType=NUMERIC}, -->
+			issue_time=#{item.issue_time,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler}
+		where task_id=#{item.task_id,jdbcType=NUMERIC}
+	</foreach>
+  </update>  
+  
+  <update id="updateTaskRecoverStatusRecords" parameterType="java.util.List">
+	<foreach collection="list" item="item" index="index">
+		update gbta_task_t
+		set recycle_status_id=#{item.recycle_status_id,jdbcType=NUMERIC}, 
+			<!-- recycle_user_id=#{item.recycle_user_id,jdbcType=NUMERIC}, -->
+			recycle_time=#{item.recycle_time,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler}
+		where task_id=#{item.task_id,jdbcType=NUMERIC}
+	</foreach>
+  </update> 
+  
+   <insert id="insertMeasureAutoUnitStore" parameterType="java.util.List">
+	   <selectKey resultType="long" keyProperty="id" order="BEFORE">
+				SELECT    gbta_unit_id_seq.nextval FROM DUAL
+	   	</selectKey>
+	   	insert into gbta_unit_t(task_unit_id,task_id,monitor_id,runplan_id,runplan_type_id,unit_create_time,
+	   	unit_begin,unit_end,unit_status_id,receiver_code,unit_interval,unit_marking_type,station_id,
+	   	transmitter_no,freq,band,direction,program_type_id,program_id,language_id,start_time,end_time,
+	   	broadcast_type_id,radio_type_id,task_type_id,time_type_id,center_id,monitor_alias,monitor_alias_code,service_area) 
+	   		
+	   		select  gbta_unit_id_seq.nextval,A.* from(
+	   	<foreach collection="list" item="item" index="index" separator="UNION ALL" >
+            select
+   			#{item.task_id,jdbcType=NUMERIC},
+   			#{item.monitor_id,jdbcType=NUMERIC},
+   			CAST(#{item.runplan_id} AS Number(20)),
+   			#{item.runplan_type_id,jdbcType=NUMERIC},
+   			to_timestamp(#{item.unit_create_time,jdbcType=TIMESTAMP},'yyyy-MM-dd HH24:mi:ss'),
+   			to_timestamp(#{item.unit_begin,jdbcType=TIMESTAMP},'yyyy-MM-dd HH24:mi:ss'),
+   			to_timestamp(#{item.unit_end,jdbcType=TIMESTAMP},'yyyy-MM-dd HH24:mi:ss'),
+   			#{item.unit_status_id,jdbcType=NUMERIC},
+   			#{item.receiver_code,jdbcType=VARCHAR},
+   			#{item.unit_interval,jdbcType=NUMERIC},
+   			#{item.unit_marking_type,jdbcType=NUMERIC},
+   			#{item.station_id},
+   			#{item.transmitter_no,jdbcType=VARCHAR},
+   			#{item.freq,jdbcType=NUMERIC},
+   			#{item.band,jdbcType=NUMERIC},
+   			#{item.direction,jdbcType=VARCHAR},
+   			#{item.program_type_id,jdbcType=NUMERIC},
+   			<!-- CAST(#{item.program_id} AS Number(20)),
+   			CAST(#{item.language_id} AS Number(20)), -->
+   			#{item.program_id,jdbcType=NUMERIC},
+   			#{item.language_id,jdbcType=NUMERIC},
+   			#{item.start_time,jdbcType=VARCHAR},
+   			#{item.end_time,jdbcType=VARCHAR},
+   			#{item.broadcast_type_id,jdbcType=NUMERIC},
+   			#{item.radio_type_id,jdbcType=NUMERIC},
+   			#{item.task_type_id,jdbcType=NUMERIC},
+   			#{item.time_type_id,jdbcType=NUMERIC},
+   			#{item.center_id,jdbcType=NUMERIC},
+   			#{item.monitor_alias,jdbcType=VARCHAR},
+   			#{item.monitor_alias_code,jdbcType=VARCHAR},
+   			#{item.service_area,jdbcType=VARCHAR}
+   			from dual
+   		</foreach>)A
+   </insert>
+   
+   <insert id="insertMeasureManualUnitStore" parameterType="java.util.List">
+        <selectKey resultType="long" keyProperty="id" order="BEFORE">
+			 SELECT   gbta_range_id_seq.nextval FROM DUAL
+		</selectKey>
+		   	 insert into gbta_manual_task_range_t(task_range_id,task_id,monitor_id,receiver_code,runplan_id,runplan_type_id,
+   		unit_create_time,unit_status_id,freq,unit_end,unit_begin,unit_interval,unit_marking_type,monitor_alias,monitor_alias_code)
+			 select gbta_range_id_seq.nextval,A.* from(
+        <foreach collection="list" item="item" index="index"  separator="UNION ALL"  >
+			   select 
+   			#{item.task_id,jdbcType=NUMERIC},
+   			#{item.monitor_id,jdbcType=NUMERIC},
+   			#{item.reciever_code,jdbcType=VARCHAR},
+   			#{item.runplan_id,jdbcType=NUMERIC},
+   			#{item.runplan_type_id,jdbcType=NUMERIC},
+   			to_timestamp(#{item.unit_create_time},'yyyy-MM-dd HH24:mi:ss'),
+   			#{item.unit_status_id,jdbcType=NUMERIC},
+   			#{item.freq,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2IntTypeHandler},
+   			to_timestamp(#{item.unit_end},'yyyy-MM-dd HH24:mi:ss'), 
+   			to_timestamp(#{item.unit_begin},'yyyy-MM-dd HH24:mi:ss'),  
+   			#{item.unit_interval,jdbcType=NUMERIC},
+   			#{item.unit_marking_type,jdbcType=NUMERIC},
+   			#{item.monitor_alias,jdbcType=VARCHAR},
+   			#{item.monitor_alias_code,jdbcType=VARCHAR}
+   			from dual
+   		</foreach>)A
+   </insert>
+   
+   <insert id="insertMeasureManualUnit" parameterType="java.util.List">
+   		<!-- insert into gbta_manual_task_range_t(task_range_id,task_id,monitor_id,receiver_code,runplan_id,runplan_type_id,unit_create_time,unit_collect_time,radio_url,unit_status_id,freq,eval_url,unit_end,unit_begin,unit_interval) values
+   		<foreach collection="list" item="item" index="index" separator="," >
+   			(nextval('gbta_range_id_seq'::regclass),
+            (gbta_range_id_seq.nextval, -->
+        <selectKey resultType="long" keyProperty="id" order="BEFORE">
+			 SELECT   gbta_range_id_seq.nextval FROM DUAL
+		</selectKey>
+		   	 insert into gbta_manual_task_range_t(task_range_id,task_id,monitor_id,receiver_code,runplan_id,runplan_type_id,unit_create_time,unit_collect_time,
+		   	 radio_url,unit_status_id,freq,eval_url,unit_end,unit_begin,unit_interval)
+			 select gbta_range_id_seq.nextval,A.* from(
+        <foreach collection="list" item="item" index="index"  separator="UNION ALL"  >
+			  select 
+   			#{item.task_id,jdbcType=NUMERIC},
+   			#{item.monitor_id,jdbcType=NUMERIC},
+   			#{item.reciever_code,jdbcType=VARCHAR},
+   			CAST(#{item.runplan_id} AS Number(20)),
+   			#{item.runplan_type_id,jdbcType=NUMERIC},
+   			to_timestamp(#{item.unit_create_time},'yyyy-MM-dd HH24:mi:ss'),  
+   			#{item.unit_collect_time,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler},
+   			#{item.radio_url,jdbcType=VARCHAR},
+   			#{item.unit_status_id,jdbcType=NUMERIC},
+   			#{item.freq,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2IntTypeHandler},
+   			#{item.eval_url,jdbcType=VARCHAR},
+   			to_timestamp(#{item.unit_begin},'yyyy-MM-dd HH24:mi:ss'),  
+   			to_timestamp(#{item.unit_end},'yyyy-MM-dd HH24:mi:ss'),   
+   			#{item.unit_interval,jdbcType=NUMERIC}
+   			from dual
+   		</foreach>)A
+   </insert>
+   
+   <update id="updateMeasureAutoUnitStatus" parameterType="java.util.List">
+   		<foreach collection="list" item="item" index="index">
+			update gbta_unit_t set unit_status_id=#{item.unit_status_id,jdbcType=NUMERIC}
+			 where unit_begin &lt; #{item.unit_begin,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler}
+			   and unit_end &lt; #{item.unit_end,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler}
+			   and unit_interval = #{item.unit_interval,jdbcType=NUMERIC}
+			   and monitor_id = #{item.monitor_id,jdbcType=NUMERIC}
+			   and runplan_type_id = #{item.runplan_type_id,jdbcType=NUMERIC}
+		</foreach>
+   </update>
+    <!--  <update id="updateMeasureAutoFailStatus" parameterType="java.util.Map">
+   		<foreach collection="list" item="item" index="index" separator=";">
+			update gbta_unit_t 
+			set unit_status_id=#{item.unit_status_id,jdbcType=NUMERIC},
+				uncollect_reason=#{item.uncollect_reason,jdbcType=VARCHAR}
+			 where unit_begin = to_date(#{item.unit_begin,jdbcType=TIMESTAMP},'yyyy-mm-dd hh24:mi:ss')
+			   and unit_end = to_date(#{item.unit_end,jdbcType=TIMESTAMP},'yyyy-mm-dd hh24:mi:ss')
+			   and monitor_id = #{item.monitor_id,jdbcType=NUMERIC}
+			   and runplan_type_id = #{item.runplan_type_id,jdbcType=NUMERIC}
+			   and runplan_id = #{item.runplan_id,jdbcType=NUMERIC}
+			   and task_id=#{item.task_id,jdbcType=NUMERIC}
+			   and unit_status_id =3
+		</foreach>
+   </update> -->
+   
+   <update id="updateMeasureAutoFailStatus" parameterType="java.util.Map">
+    		update gbta_unit_t 
+			set unit_status_id=#{unit_status_id,jdbcType=NUMERIC},
+				uncollect_reason=#{uncollect_reason,jdbcType=VARCHAR}
+			 where unit_begin = to_date(#{unit_begin,jdbcType=TIMESTAMP},'yyyy-mm-dd hh24:mi:ss')
+			   and unit_end = to_date(#{unit_end,jdbcType=TIMESTAMP},'yyyy-mm-dd hh24:mi:ss')
+			   and monitor_alias_code = #{monitor_alias_code,jdbcType=VARCHAR}
+			   and runplan_type_id = #{runplan_type_id,jdbcType=NUMERIC}
+			   and runplan_id = #{runplan_id,jdbcType=NUMERIC}
+			   and task_id=#{task_id,jdbcType=NUMERIC}
+			   and unit_status_id =3
+	</update>
+  
+   <update id="updateMeasureManualUnitStatus" parameterType="java.util.List">
+   		<foreach collection="list" item="item" index="index">
+			update gbta_manual_task_range_t set unit_status_id=#{item.unit_status_id,jdbcType=NUMERIC}
+			where unit_begin &lt; #{item.unit_begin,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler}
+			  and unit_interval = #{item.unit_interval,jdbcType=NUMERIC}
+		</foreach>
+   </update>
+   
+  <update id="updateManualTaskRecoverTime" parameterType="java.util.List">
+   		<foreach collection="list" item="item" index="index">
+			update gbta_quality_recover_t set recover_time=#{item.recover_time,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler}
+			where task_id=#{item.task_id,jdbcType=NUMERIC}
+			  and monitor_id=#{item.monitor_id,jdbcType=NUMERIC}
+			  and task_type=#{item.task_type,jdbcType=VARCHAR}
+			  and freq_id=#{item.freq_id,jdbcType=NUMERIC}
+		</foreach>
+   </update>
+   
+  <update id="updateSetTaskStatus" parameterType="java.util.List">
+   		<foreach collection="list" item="item" index="index">
+			update gbta_quality_recover_t set set_status=#{item.set_status}
+			where task_id=#{item.task_id,jdbcType=NUMERIC}
+			  and monitor_id=#{item.monitor_id,jdbcType=NUMERIC}
+			  and task_type=#{item.task_type,jdbcType=VARCHAR}
+			  and freq_id=#{item.freq_id,jdbcType=NUMERIC}
+		</foreach>
+   </update>
+   
+   
+   
+   <insert id="insertManualTaskRecoverTime" parameterType="java.util.List">
+   		insert into gbta_quality_recover_t(task_id,monitor_id,task_type,recover_time,freq_id,task_unique_id)
+   		<foreach collection="list" item="item" index="index" separator="union all" >
+   			(select 
+   			#{item.task_id,jdbcType=NUMERIC},
+   			#{item.monitor_id,jdbcType=NUMERIC},
+   			#{item.task_type,jdbcType=VARCHAR},
+   			#{item.recover_time,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler},
+			#{item.freq_id,jdbcType=NUMERIC},
+			CAST(#{item.task_unique_id} AS Number(20))
+			from dual)  
+   		</foreach>
+   </insert>
+   
+  <update id="updateSiteEquAlarmStatus" parameterType="java.util.List">
+   		<foreach collection="list" item="item" index="index">
+			update gbmo_moni_location_cft set equ_alarm_status=#{item.alarm_type}
+			where monitor_id=#{item.monitor_id}
+		</foreach>
+  </update>
+  
+  <update id="updateSiteQualityAlarmStatus" parameterType="java.util.List">
+   		<foreach collection="list" item="item" index="index">
+			update gbmo_moni_location_cft set quality_alarm_status=#{item.alarm_type}
+			where monitor_id=#{item.monitor_id}
+		</foreach>
+  </update>
+  
+   
+  <update id="updateReSetDeleteTask" parameterType="java.util.List">
+   		<foreach collection="list" item="item" index="index">
+			update gbta_task_t set in_use=1
+			where task_id=#{item.task_id}
+		</foreach>
+   </update>
+   
+  	<delete id="deleteManualTaskRecoverTime" parameterType="java.util.List">
+  		delete from gbta_quality_recover_t where 
+		<foreach collection="list" item="item" index="index"  separator="or" >
+			(task_id= #{item.task_id,jdbcType=NUMERIC}
+			  and freq_id=#{item.freq_id,jdbcType=NUMERIC}
+			  and monitor_id=#{item.monitor_id,jdbcType=NUMERIC}
+			  and task_type=#{item.task_type,jdbcType=VARCHAR})
+		</foreach>
+   	</delete>
+   	
+  	<update id="updateTaskDataStatus" parameterType="java.util.List">
+  		update gbta_task_t set data_status = 3 where task_id  in
+		<foreach collection="list" item="item" index="index"  open="(" separator="," close=")">
+			 #{item.task_id,jdbcType=NUMERIC}
+		</foreach>
+   	</update>
+  	<delete id="deleteSetTask" parameterType="java.util.List">
+  	delete from gbta_task_t where task_id  in
+		<foreach collection="list" item="item" index="index"  open="(" separator="," close=")">
+			 #{item.task_id,jdbcType=NUMERIC}
+		</foreach>
+   	</delete>
+   	
+  	<delete id="deleteSetTaskFreq" parameterType="java.util.List">
+  	delete from gbta_task_freq_t where task_id in
+		<foreach collection="list" item="item" index="index"   open="(" separator="," close=")">
+			 #{item.task_id,jdbcType=NUMERIC}
+		</foreach>
+   	</delete>
+   	
+	<delete id="deleteSetTaskConf" parameterType="java.util.List">
+	delete from gbta_task_conf_t where task_id in 
+		<foreach collection="list" item="item" index="index"  open="(" separator="," close=")">
+			#{item.task_id,jdbcType=NUMERIC}
+		</foreach>
+   	</delete>
+   	
+    <delete id="deleteSetTaskMonitor" parameterType="java.util.List">
+    delete from gbta_task_monitor_t where task_id in
+		<foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+			 #{item.task_id,jdbcType=NUMERIC}
+		</foreach>
+   	</delete>
+   	
+   	<delete id="deleteSetTaskFreqSchedule" parameterType="java.util.List">
+   	delete from gbta_task_schedule_t t where 
+		<foreach collection="list" item="item" index="index"  separator="or">
+			(time_id in ( 
+			SELECT
+				sche.time_id
+			FROM
+				gbta_task_t task
+			LEFT JOIN gbta_task_freq_t freq ON task.task_id = freq.task_id
+			LEFT JOIN gbta_task_schedule_t sche ON freq.taskfreq_id = sche.taskfreq_id where task.task_id = #{item.task_id,jdbcType=NUMERIC}
+			)
+			)
+		</foreach>
+   	</delete>
+   	
+ 	<delete id="deleteSetTaskRecover" parameterType="java.util.List">
+ 	delete from gbta_quality_recover_t where task_id in
+		<foreach collection="list" item="item" index="index"  open="(" separator="," close=")">
+			#{item.task_id,jdbcType=NUMERIC}
+		</foreach>
+   	</delete>
+   	
+	<insert id="insertInspectResultStore" parameterType="java.util.List">
+		<!-- insert into gbmo_moni_inspec_result_t(result_id,monitor_id,inspec_code,inspec_message,time_stamp,inspec_result,inspec_finish_time,inspec_finish_status,inspec_finish_score)
+			values
+		<foreach collection="list" item="item" index="index"  separator="," >
+			 (nextval('gbmo_moni_inspec_result_id_seq'::regclass),
+                (gbmo_moni_inspec_result_id_seq.nextval, -->
+        <selectKey resultType="long" keyProperty="id" order="BEFORE">
+			 SELECT   gbmo_moni_inspec_result_id_seq.nextval FROM DUAL
+		</selectKey>
+		   	 insert into gbmo_moni_inspec_result_t(result_id,monitor_id,inspec_code,inspec_message,time_stamp,inspec_result,
+		   	 inspec_finish_time,inspec_finish_status,inspec_finish_score)
+			 select gbmo_moni_inspec_result_id_seq.nextval,A.* from(
+        <foreach collection="list" item="item" index="index"  separator="UNION ALL"  >
+			  select 
+			  #{item.monitor_id,jdbcType=NUMERIC},#{item.inspec_code,jdbcType=VARCHAR},#{item.inspec_message,jdbcType=VARCHAR},
+			  #{item.time_stamp,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler},
+			  #{item.inspec_result,jdbcType=NUMERIC},
+			  #{item.inspec_finish_time,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler},
+			  #{item.inspec_finish_status,jdbcType=NUMERIC},
+			  #{item.inspec_finish_score,jdbcType=NUMERIC}
+			  from dual
+		</foreach>)A
+	</insert>
+	
+	<insert id="insertEquAlarmRecords" parameterType="java.util.List">
+		<!-- insert into gbal_equ_alarm_t(alarm_id,monitor_id,event_id,center_id,alarm_kind,alarm_type_id,alarm_content,alarm_title,alarm_begin_time,alarm_cause,alarm_additional_text,alarm_state,alarm_end_time,operate_type)
+			values
+		<foreach collection="list" item="item" index="index"  separator="," >
+			 (nextval('gbal_equ_alarm_id_seq'::regclass),
+               (gbal_equ_alarm_id_seq.nextval, -->
+        <selectKey resultType="long" keyProperty="id" order="BEFORE">
+			 SELECT   gbal_equ_alarm_id_seq.nextval FROM DUAL
+		</selectKey>
+		   	insert into gbal_equ_alarm_t(alarm_id,monitor_id,event_id,center_id,alarm_kind,alarm_type_id,alarm_content,alarm_begin_time,
+		   	alarm_cause,alarm_additional_text,alarm_state,alarm_end_time,operate_type)
+			 select gbal_equ_alarm_id_seq.nextval,A.* from(
+        <foreach collection="list" item="item" index="index"  separator="UNION ALL"  >
+			 select 
+			  #{item.monitorId,jdbcType=NUMERIC},
+			  #{item.eventId,jdbcType=NUMERIC},
+			  #{item.centerId,jdbcType=NUMERIC},
+			  #{item.alarmKind,jdbcType=NUMERIC},
+			  #{item.alarmTypeId,jdbcType=NUMERIC},
+			  #{item.alarmContent,jdbcType=VARCHAR},
+			  #{item.alarmBeginTime,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler},
+			  #{item.alarmCause,jdbcType=VARCHAR},#{item.alarmAdditionalText,jdbcType=VARCHAR},
+			  #{item.alarmState,jdbcType=NUMERIC},
+			  #{item.alarmEndTime,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler},
+			  #{item.operateType,jdbcType=NUMERIC}
+			  from dual
+		</foreach>)A
+	</insert>
+
+<!-- 	<update id="updateEquAlarmRecords" parameterType="java.util.List"> -->
+<!-- 		<foreach collection="list" item="item" index="index"> -->
+<!-- 			update gbal_equ_alarm_t	 -->
+<!-- 			set event_id= #{item.eventId,jdbcType=NUMERIC}, -->
+<!-- 				center_id=#{item.centerId,jdbcType=NUMERIC}, -->
+<!-- 				alarm_kind=#{item.alarmKind,jdbcType=NUMERIC}, -->
+<!-- 				alarm_content=#{item.alarmContent,jdbcType=VARCHAR}, -->
+<!-- 				alarm_begin_time= #{item.alarmBeginTime,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler}, -->
+<!-- 				alarm_end_time= #{item.alarmEndTime,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler}, -->
+<!-- 				alarm_period_time=#{item.alarmPeriodTime,jdbcType=VARCHAR}, -->
+<!-- 				alarm_cause= #{item.alarmCause,jdbcType=VARCHAR}, -->
+<!-- 				alarm_additional_text=#{item.alarmAdditionalText,jdbcType=VARCHAR}, -->
+<!-- 				alarm_state=#{item.alarmState,jdbcType=NUMERIC}, -->
+<!-- 				operate_type =0 -->
+<!-- 			where monitor_id = #{item.monitorId,jdbcType=NUMERIC} -->
+<!-- 			  AND alarm_type_id = #{item.alarmTypeId,jdbcType=NUMERIC} -->
+<!-- 			  AND alarm_state = 0 -->
+<!-- 		</foreach> -->
+<!-- 	</update> -->
+	<update id="updateEquAlarmRecords" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index">
+			update gbal_equ_alarm_t	
+			set alarm_end_time= #{item.alarmEndTime,typeHandler=com.neusoft.gbw.cp.store.typehandler.String2TimestampTypeHandler},
+				alarm_period_time=#{item.alarmPeriodTime,jdbcType=VARCHAR},
+				alarm_state=#{item.alarmState,jdbcType=NUMERIC},
+				operate_type =0
+			where alarm_id = #{item.alarmId,jdbcType=NUMERIC}
+		</foreach>
+	</update>
+
+<!--   	<select id="queryEquAlarmRecords" parameterType="java.util.Map" resultType="String"> -->
+<!--     		select  count(1) -->
+<!-- 			 from   gbal_equ_alarm_t  t -->
+<!-- 			  where  t.monitor_id = #{monitorId,jdbcType=NUMERIC}  -->
+<!-- 			   and  t.alarm_type_id  = #{alarmTypeId,jdbcType=NUMERIC}  -->
+<!-- 			    and  t.alarm_state =0 -->
+			  
+<!-- </select> -->
+<!--==========================================以下为测试代码=================================================================== -->
+ 
+
+	<insert id="insertIntelligentRecords" parameterType="java.util.List">
+	<!--	insert into mybatis_test_t(id,name,age,address1,address2,address3,address4,address5,address6,address7,address8,address9,address10,address11,address12,address13)
+		values (
+		 <foreach collection="list" item="item" index="index"  separator="," >
+			#{item.id},#{item.name},#{item.age},#{item.address1},#{item.address2},
+			 #{item.address3},#{item.address4},#{item.address5},#{item.address6},#{item.address7},
+			 #{item.address8},#{item.address9},#{item.address10},#{item.address11},#{item.address12},
+			 #{item.address13}
+		</foreach> -->
+		insert into mybatis_test_t(id,name,age,address1,address2,address3,address4,address5,address6,address7,address8,address9,address10,address11,address12,address13)
+			values
+		<foreach collection="list" item="item" index="index"  separator="," >
+			 (#{item.id},#{item.name},#{item.age},#{item.address1},#{item.address2},
+			 #{item.address3},#{item.address4},#{item.address5},#{item.address6},#{item.address7},
+			 #{item.address8},#{item.address9},#{item.address10},#{item.address11},#{item.address12},
+			 #{item.address13} )
+		</foreach>
+	</insert>
+	
+  <update id="updateIntelligentRecords" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index">
+			update mybatis_test_t set age=#{item.age} where id=#{item.id}
+		</foreach>
+  </update>
+	
+  <delete id="deleteIntelligentRecords" parameterType="java.util.List">
+ 		delete from mybatis_test_t
+		 where id in
+		(<foreach collection="list" item="item" index="index"  separator="," >
+  		 #{item.id}
+		</foreach>)
+   </delete> 
+</mapper>

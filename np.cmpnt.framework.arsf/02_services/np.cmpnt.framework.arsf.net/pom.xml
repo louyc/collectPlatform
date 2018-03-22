@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<relativePath>../../01_build/compiled/</relativePath>
+		<groupId>np.cmpnt.framework.arsf.build</groupId>
+		<artifactId>arsf.build.compiled</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	
+	<groupId>np.cmpnt.framework.arsf.services</groupId>
+	<artifactId>np.cmpnt.framework.arsf.net</artifactId>
+
+	<properties>
+		<bundle.symbolicName>np.cmpnt.framework.arsf.net</bundle.symbolicName>
+	</properties>
+
+	<name>${bundle.symbolicName}</name>
+
+	<packaging>bundle</packaging>
+
+
+	<dependencies>
+		<dependency>
+			<groupId>np.cmpnt.framework.arsf.services</groupId>
+			<artifactId>np.cmpnt.framework.arsf.common</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>np.cmpnt.framework.arsf.services</groupId>
+			<artifactId>np.cmpnt.framework.arsf.core</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>np.cmpnt.framework.arsf.services</groupId>
+			<artifactId>np.cmpnt.framework.arsf.base</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>restlet-jse</groupId>
+			<artifactId>org.restlet</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>restlet-jse</groupId>
+			<artifactId>org.restlet.ext.jaxrs</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>restlet-jse</groupId>
+			<artifactId>org.restlet.ext.json</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>javax.ws.rs-api</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>jsr311-api</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.portlet</groupId>
+			<artifactId>portlet-api</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+	</dependencies>
+</project>

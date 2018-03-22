@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="GB2312" standalone="yes"?>
+<Msg Version="8" MsgID="2" Type="RadioUp" DateTime="2002-08-17 15:30:00" SrcCode="R61D01" DstCode="CBT01" ReplyID="1">
+	<Return Type="FileRetrieve" Value="0" Desc="成功"/>
+	<FileRetrieveR>
+		<File FileURL="ftp://10.10.5.88/TzD18B_1000528406_20120511170240_20120511170250_106800_R2.zip"/>
+		<File FileURL="ftp://10.10.5.88/TzD18B_1000528406_20120511170240_20120511170250_106800_R2.zip"/>
+	</FileRetrieveR>
+</Msg>

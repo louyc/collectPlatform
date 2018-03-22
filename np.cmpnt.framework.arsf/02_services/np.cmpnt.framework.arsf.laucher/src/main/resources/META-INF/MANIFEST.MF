@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: arsf.laucher
+Bundle-SymbolicName: np.cmpnt.framework.arsf.laucher
+Bundle-Version: 1.0.0
+Bundle-Activator: com.neusoft.np.arsf.laucher.Activator
+Bundle-Vendor: NEUSOFT
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Export-Package: com.neusoft.np.arsf.laucher;version="1.0.0"
+Import-Package: org.osgi.framework;version="1.6.0",
+ org.osgi.framework.startlevel;version="1.0.0"
+

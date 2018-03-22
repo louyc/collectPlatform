@@ -1,0 +1,13 @@
+*.class
+/bin
+/target
+/bin-debug
+/.settings
+*.classpath
+*.project
+.actionScriptProperties
+.flexProperties
+.project
+flexConfig.xml
+.flexConfig.xml
+.flexLibProperties

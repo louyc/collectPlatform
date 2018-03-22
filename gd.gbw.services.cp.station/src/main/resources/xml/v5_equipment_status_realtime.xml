@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="GB2312" standalone="yes"?>
+<Msg Version="5" MsgID="2" Type="RadioUp" DateTime="2002-08-17 15:30:00" SrcCode="110000R01" DstCode="110000X01" ReplyID="-1">
+	<Return Type="EquipmentStatusRealtimeQuery" Value="0" Desc="成功"/>
+	<EquipmentStatusRealtimeReport>
+		<EquipmentRealtimeStatus CheckDateTime="2003-01-23 09:03:31">
+			<Equipment Type="1" EquCode="R1" EquStatus="Work" Desc="工作">
+				<!-- EquStatus 为设备状态：Work/Idle/Fail -->
+				<Parameter ParammeterType="OutputLineLevel" Value="231"/>
+				<Parameter ParammeterType="InputLineLevel" Value="231"/>
+				<Parameter ParammeterType="LineRrequency" Value="53.3"/>
+				<Parameter ParammeterType="BatteryLevel" Value="36.2"/>
+				<Parameter ParammeterType="UPSStatus" Value="255"/>
+			</Equipment>
+			<Equipment Type="2" EquCode="R2" EquStatus="Work" Desc="工作">
+				<Parameter ParammeterType="Level" Value="231"/>
+				<Parameter ParammeterType="FM-Modulation" Value="57"/>
+				<Parameter ParammeterType="AM-Modulation" Value="75"/>
+				<Parameter ParammeterType="Band" Value="1"/>
+				<Parameter ParammeterType="Freq" Value="828"/>
+				<Parameter ParammeterType="Offset" Value="-2"/>
+				<Parameter ParammeterType="Attenuation" Value="2"/>
+				<Parameter ParammeterType="TaskType" Value="收测任务"/>
+			</Equipment>
+			<Equipment Type="3" EquCode="150000X04" EquStatus="Fail" Desc="检测不到设备"/>
+			<Equipment Type="4" EquCode="150000X04" EquStatus="Fail" Desc="检测不到设备"/>
+			<Equipment Type="5" EquCode="150000X05" EquStatus="Work" Desc=""/>
+			<Equipment Type="6" EquCode="150000X06" EquStatus="Work" Desc=""/>
+		</EquipmentRealtimeStatus>
+	</EquipmentStatusRealtimeReport>
+</Msg>

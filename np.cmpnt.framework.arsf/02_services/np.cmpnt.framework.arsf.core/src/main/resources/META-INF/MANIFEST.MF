@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: arsf.core
+Bundle-SymbolicName: np.cmpnt.framework.arsf.core
+Bundle-Version: 1.0.0
+Bundle-Vendor: NEUSOFT
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Import-Package: org.osgi.framework;version="1.6.0"
+Bundle-ClassPath: .
+Export-Package: com.neusoft.np.arsf.service.avro;version="1.0.0",
+ com.neusoft.np.arsf.service.cluster;version="1.0.0",
+ com.neusoft.np.arsf.service.config;version="1.0.0",
+ com.neusoft.np.arsf.service.db;version="1.0.0",
+ com.neusoft.np.arsf.service.event;version="1.0.0",
+ com.neusoft.np.arsf.service.log;version="1.0.0",
+ com.neusoft.np.arsf.service.schedule;version="1.0.0",
+ com.neusoft.np.arsf.service.transfer;version="1.0.0"

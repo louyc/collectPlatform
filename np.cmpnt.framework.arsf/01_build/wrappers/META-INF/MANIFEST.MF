@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Application-SymbolicName: cp
+Application-Version: 5.1.2
+Application-Name: cp Plan
+

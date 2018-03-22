@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2009-2012 The MyBatis Team Licensed under the Apache License, 
+	Version 2.0 (the "License"); you may not use this file except in compliance 
+	with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+	Unless required by applicable law or agreed to in writing, software distributed 
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+	the specific language governing permissions and limitations under the License. -->
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.neusoft.gbw.cp.process.alarm.dao.CPMapper">
+
+	<!-- 查询设备告警数据-->
+	<select id="selectEquAlarmList" parameterType="java.util.Map" resultType="com.neusoft.gbw.cp.core.store.EquAlarm">
+		SELECT 
+			T .alarm_id alarmId,
+			T .monitor_id monitorId,
+			T .event_id eventId,
+			T .center_id centerId,
+			T .alarm_kind alarmKind,
+ 			T .alarm_begin_time alarmBeginTime,
+			T .alarm_type_id alarmTypeId,
+			T .alarm_content alarmContent,
+			T .alarm_cause alarmCause,
+			T .alarm_additional_text alarmAdditionalText,
+			T .alarm_state alarmState,
+			T .alarm_end_time alarmEndTime FROM 
+		(SELECT
+			*
+		FROM gbal_equ_alarm_t
+		WHERE
+			monitor_id = #{monitor_id,jdbcType=NUMERIC}
+		AND alarm_type_id = #{alarm_type_id,jdbcType=NUMERIC}
+		AND alarm_begin_time is not NULL
+		order by alarm_begin_time desc 
+		)T  where rownum &lt;2
+	</select>
+
+</mapper>

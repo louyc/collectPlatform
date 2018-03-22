@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="GB2312" standalone="yes"?>
+<Msg Version="8" MsgID="2" Type="RadioUp" DateTime="2002-08-17 15:30:00" SrcCode="R61D01" DstCode="CBT01" ReplyID="1">
+	<Return Type="OffsetHistoryQuery" Value="0" Desc="OK"/>
+	<OffsetHistoryReport EquCode="R1" TaskID="320020000">
+		<OffsetIndex Band="1" Freq="639" CheckDateTime="2002-08-20 10:00:00" Offset="-3"/>
+		<OffsetIndex Band="1" Freq="639" CheckDateTime="2002-08-20 10:30:00" Offset="2"/>
+	</OffsetHistoryReport>
+</Msg>

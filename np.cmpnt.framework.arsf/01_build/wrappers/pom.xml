@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<relativePath>../01_compiled/</relativePath>
+		<groupId>np.cmpnt.framework.arsf.build</groupId>
+		<artifactId>arsf.build.compiled</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>arsf.build.wrappers</artifactId>
+
+	<name>np.cmpnt.framework.arsf.build.wrappers</name>
+
+	<properties>
+		<arsf.version>1.0.0-SNAPSHOT</arsf.version>
+	</properties>
+
+	<packaging>pom</packaging>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<descriptors>
+								<descriptor>META-INF/cfg/assembly.xml</descriptor>
+							</descriptors>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>np.cmpnt.framework.arsf.services</groupId>
+			<artifactId>np.cmpnt.framework.arsf.laucher</artifactId>
+			<version>${arsf.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>np.cmpnt.framework.arsf.services</groupId>
+			<artifactId>np.cmpnt.framework.arsf.common</artifactId>
+			<version>${arsf.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>np.cmpnt.framework.arsf.services</groupId>
+			<artifactId>np.cmpnt.framework.arsf.core</artifactId>
+			<version>${arsf.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>np.cmpnt.framework.arsf.services</groupId>
+			<artifactId>np.cmpnt.framework.arsf.core.config</artifactId>
+			<version>${arsf.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>np.cmpnt.framework.arsf.services</groupId>
+			<artifactId>np.cmpnt.framework.arsf.core.event</artifactId>
+			<version>${arsf.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>np.cmpnt.framework.arsf.services</groupId>
+			<artifactId>np.cmpnt.framework.arsf.core.log</artifactId>
+			<version>${arsf.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>np.cmpnt.framework.arsf.services</groupId>
+			<artifactId>np.cmpnt.framework.arsf.core.schedule</artifactId>
+			<version>${arsf.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>np.cmpnt.framework.arsf.services</groupId>
+			<artifactId>np.cmpnt.framework.arsf.core.transfer</artifactId>
+			<version>${arsf.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>np.cmpnt.framework.arsf.services</groupId>
+			<artifactId>np.cmpnt.framework.arsf.db.core</artifactId>
+			<version>${arsf.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>np.cmpnt.framework.arsf.services</groupId>
+			<artifactId>np.cmpnt.framework.arsf.db.pg</artifactId>
+			<version>${arsf.version}</version>
+			<scope>provided</scope>
+		</dependency>
+				<dependency>
+			<groupId>np.cmpnt.framework.arsf.services</groupId>
+			<artifactId>np.cmpnt.framework.arsf.db.ora</artifactId>
+			<version>${arsf.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>np.cmpnt.framework.arsf.services</groupId>
+			<artifactId>np.cmpnt.framework.arsf.net</artifactId>
+			<version>${arsf.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>np.cmpnt.framework.arsf.services</groupId>
+			<artifactId>np.cmpnt.framework.arsf.service</artifactId>
+			<version>${arsf.version}</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+
+</project>

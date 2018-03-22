@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<messages>
+	<message>
+		<property key="syncType" value="" />
+		<property key="serial" value="" />
+
+		<property key="handlerId" value="test_1" />
+		<property key="messageCode" value="msg00001" />
+
+		<property key="taskScheduleType" value="2" />
+		<property key="period" value="1" />
+	</message>
+
+	<message>
+		<property key="syncType" value="" />
+		<property key="serial" value="" />
+
+		<property key="handlerId" value="test_1" />
+		<property key="messageCode" value="msg00002" />
+
+		<property key="taskScheduleType" value="2" />
+		<property key="period" value="2" />
+	</message>
+
+	<message>
+		<property key="syncType" value="" />
+		<property key="serial" value="" />
+
+		<property key="handlerId" value="test_1" />
+		<property key="messageCode" value="msg00003" />
+
+		<property key="taskScheduleType" value="2" />
+		<property key="period" value="2" />
+	</message>
+
+	<message>
+		<property key="syncType" value="" />
+		<property key="serial" value="" />
+
+		<property key="handlerId" value="test_1" />
+		<property key="messageCode" value="msg00004" />
+
+		<property key="taskScheduleType" value="2" />
+		<property key="period" value="2" />
+	</message>
+</messages>

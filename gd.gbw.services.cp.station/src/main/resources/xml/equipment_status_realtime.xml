@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="GB2312" standalone="yes"?>
+<Msg Version="8" MsgID="2" Type="RadioUp" DateTime="2002-08-17 15:30:00" SrcCode="CBT01" DstCode="R61D01" ReplyID="1">
+	<Return Type="EquipmentStatusRealtimeQuery" Value="0" Desc="success"/>
+	<EquipmentStatusRealtimeReport>
+		<EquipmentRealtimeStatus CheckDateTime="2003-01-23 09:03:31">
+			<Equipment Type="1" EquCode="110000R0101" EquStatus="Work" Desc="work">
+				<Parameter ParammeterType="OutputLineLevel" Value="231"/>
+				<Parameter ParammeterType="InputLineLevel" Value="231"/>
+				<Parameter ParammeterType="LineRrequency" Value="53.3"/>
+				<Parameter ParammeterType="BatteryLevel" Value="36.2"/>
+				<Parameter ParammeterType="UPSStatus" Value="255"/>
+			</Equipment>
+			<Equipment Type="2" EquCode="R1" EquStatus="Work" Desc="work">
+				<Parameter ParammeterType="Level" Value="231"/>
+				<Parameter ParammeterType="FM-Modulation" Value="57"/>
+				<Parameter ParammeterType="AM-Modulation" Value="75"/>
+				<Parameter ParammeterType="Band" Value="1"/>
+				<Parameter ParammeterType="Freq" Value="828"/>
+				<Parameter ParammeterType="Offset" Value="-2"/>
+				<Parameter ParammeterType="Attenuation" Value="2"/>
+				<Parameter ParammeterType="BandWidth" Value="5"/>
+				<Parameter ParammeterType="TaskType" Value="1"/>
+			</Equipment>
+			<Equipment Type="2" EquCode="R2" EquStatus="Idle" Desc="">
+				<Parameter ParammeterType="Level" Value="231"/>
+				<Parameter ParammeterType="FM-Modulation" Value="57"/>
+				<Parameter ParammeterType="AM-Modulation" Value="75"/>
+				<Parameter ParammeterType="Band" Value="1"/>
+				<Parameter ParammeterType="Freq" Value="828"/>
+				<Parameter ParammeterType="Offset" Value="-2"/>
+				<Parameter ParammeterType="Attenuation" Value="2"/>
+				<Parameter ParammeterType="BandWidth" Value="5"/>
+				<Parameter ParammeterType="TaskType" Value="1"/>
+			</Equipment>
+			<Equipment Type="3" EquCode="150000X04" EquStatus="Fail" Desc="not found device"/>
+			<Equipment Type="4" EquCode="150000X04" EquStatus="Fail" Desc="not found device"/>
+			<Equipment Type="5" EquCode="150000X05" EquStatus="Work" Desc=""/>
+			<Equipment Type="6" EquCode="150000X06" EquStatus="Work" Desc=""/>
+		</EquipmentRealtimeStatus>
+	</EquipmentStatusRealtimeReport>
+</Msg>

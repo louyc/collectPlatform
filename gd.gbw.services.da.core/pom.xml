@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<relativePath>../../01_build/compiled/</relativePath>
+		<groupId>gd.gbw.build</groupId>
+		<artifactId>gbw4app.build.compiled</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+
+	<groupId>gd.gbw.services4a</groupId>
+	<artifactId>gd.gbw.services.da.core</artifactId>
+
+	<name>gd.gbw.services.da.core</name>
+
+	<packaging>bundle</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>gd.gbw.services4a</groupId>
+			<artifactId>gd.gbw.services.cp.conver.dto</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>gd.gbw.services4j</groupId>
+			<artifactId>gd.gbw.services.infrastructure</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>gd.gbw.services4j</groupId>
+			<artifactId>gd.gbw.services.app.evaluation</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>gd.gbw.services4j</groupId>
+			<artifactId>gd.gbw.services.app.monitorMgr</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>gd.gbw.services4j</groupId>
+			<artifactId>gd.gbw.services.app.mgr.radioMgr</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>gd.gbw.services4j</groupId>
+			<artifactId>gd.gbw.services.domain.abnormal</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>gd.gbw.services4j</groupId>
+			<artifactId>gd.gbw.services.domain.task</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>gd.gbw.services4j</groupId>
+			<artifactId>gd.gbw.services.domain.monitor</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>gd.gbw.services4j</groupId>
+			<artifactId>gd.gbw.services.domain.radio</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>gd.gbw.services4j</groupId>
+			<artifactId>gd.gbw.services.app.radioMgr</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+			<scope>runtime</scope>
+		</dependency>
+				<dependency>
+			<groupId>gd.gbw.services4j</groupId>
+			<artifactId>gd.gbw.services.domain.mgr.radio</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+</project>
